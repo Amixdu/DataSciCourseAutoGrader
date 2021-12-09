@@ -1,5 +1,6 @@
 import json
 import importlib
+import sys
 
 from solutions.Q4Sol import q4
 
@@ -7,7 +8,8 @@ gbl = globals()
 
 gradeDictionary = {}
 
-mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+# mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+mypath = sys.argv[1]
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
@@ -78,7 +80,7 @@ for f in fileNames:
 
     q2Func = testModule.q4
     results.append(testQ2(q2Func, f))
-    
+
     results.append(f + " points: " + str(gradeDictionary[f]))
     results.append("<br><br>")
 

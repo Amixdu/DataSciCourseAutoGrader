@@ -49,7 +49,7 @@ app.post("/", (req, res) => {
 app.listen(port, () => console.log(`Example app listening on port http://localhost:3000/`))
 
 
-function run(fn, callback){
-    python = spawn('python', [fn]);
+function run(fp, callback){
+    python = spawn('python', ['main.py', fp]);
     callback();
 }
