@@ -83,7 +83,7 @@ for f in fileNames:
     q2Func = testModule.q4
     results.append(testQ2(q2Func, f))
 
-    results.append(f + " score: " + str((gradeDictionary[f]/NUMBER_OF_QUESTIONS)*100) + "%")
+    results.append(f + " score: <strong>" + str((gradeDictionary[f]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
     results.append("<br><br>")
 
 
