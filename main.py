@@ -6,6 +6,8 @@ from solutions.Q4Sol import q4
 
 gbl = globals()
 
+NUMBER_OF_QUESTIONS = 2
+
 gradeDictionary = {}
 
 # mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
@@ -81,43 +83,9 @@ for f in fileNames:
     q2Func = testModule.q4
     results.append(testQ2(q2Func, f))
 
-    results.append(f + " points: " + str(gradeDictionary[f]))
+    results.append(f + " score: " + str((gradeDictionary[f]/NUMBER_OF_QUESTIONS)*100) + "%")
     results.append("<br><br>")
 
 
 
 print(listToString(results))
-
-
-
-
-
-
-
-
-# print(fileNames)
-
-# from uploads.personA import positive as attemptA
-# from uploads.personB import positive as attemptB
-
-
-# from solutions.Q1Sol import positive as answer
-
-# res = ""
-
-# if (attemptA(50) == answer(50)):
-#     res += ("Person A's solution is working <br>")
-# else:
-#     res += ("Person A's solution is incorrect, the output for 1 should be True <br>")
-
-
-
-# if (attemptB(50) == answer(50)):
-#     res += ("Person B's solution is working <br>")
-# else:
-#     res += ("Person B's solution is incorrect, the output for 1 should be True <br>")
-
-# print(res)
-
-# print(onlyfiles)
-
