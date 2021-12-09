@@ -5,6 +5,8 @@ from solutions.Q4Sol import q4
 
 gbl = globals()
 
+gradeDictionary = {}
+
 mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
 from os import listdir
 from os.path import isfile, join
@@ -13,7 +15,11 @@ onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
 fileNames = []
 for file in onlyfiles:
     lst = file.split(".")
-    fileNames.append(lst[0])
+    fileName = lst[0]
+    fileNames.append(fileName)
+
+    # initialize points
+    gradeDictionary[fileName] = 0
 
 
 
@@ -25,6 +31,7 @@ def testQ1(func, studName):
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
         res += (studName + ": solution for Q3 is working <br>")
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
         res += (studName + ": solution for Q3 is incorrect <br>")
 
@@ -40,10 +47,10 @@ def testQ2(func, studName):
 
     if (func(10) == answer(10) and func(2) == answer(2) and func(5) == answer(5)):
         res += (studName + ": solution for Q4 is working <br>")
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += (studName + ": solution fro Q4 is incorrect <br>")
+        res += (studName + ": solution for Q4 is incorrect <br>")
 
-    
     return res
 
 
@@ -68,10 +75,11 @@ for f in fileNames:
 
     q1Func = testModule.q3
     results.append(testQ1(q1Func, f))
-    results.append("<br><br>")
 
     q2Func = testModule.q4
     results.append(testQ2(q2Func, f))
+    
+    results.append(f + " points: " + str(gradeDictionary[f]))
     results.append("<br><br>")
 
 
