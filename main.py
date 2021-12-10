@@ -162,8 +162,12 @@ def testAll(filesToTest):
     
     res += """
     </tbody>
-                    </table>
-                </div><br><br>  
+            </table>
+            </div><br><br>        
+    """
+
+    if (question == "all"):
+        res += """
                 <div id="totalScore">
                     <div id="subtitle" style="color: #d0dfe8; font-size: 1.5em; margin-bottom: 1em; text-align: center;">
                         <strong>Final Results</strong>
@@ -171,10 +175,7 @@ def testAll(filesToTest):
                     <div class="card text-dark bg-light mb-3" style="width: 50%; margin: auto;">
                         <div class="card-header">Results Overview</div>
                         <div class="card-body">
-                          
-    """
-
-    if (question == "all"):
+                """
         students = [(file.split('_')[0]) for file in filesToTest]
         studentsUnique = list(dict.fromkeys(students))
 
