@@ -31,7 +31,7 @@ var python;
 
 app.post("/", (req, res) => {
     var dataToSend;
-    run(req.body.fileName, function() {
+    run(req.body.fileName, req.body.questions, function() {
         // collect data from script
         python.stdout.on('data', function (data) {
             console.log('Pipe data from python script ...');
@@ -49,7 +49,7 @@ app.post("/", (req, res) => {
 app.listen(port, () => console.log(`Example app listening on port http://localhost:3000/`))
 
 
-function run(fp, callback){
-    python = spawn('python', ['main.py', fp]);
+function run(fp, ques, callback){
+    python = spawn('python', ['main.py', fp, ques]);
     callback();
 }

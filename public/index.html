@@ -163,10 +163,22 @@
       <div class="form-left-decoration"></div>
       <div class="form-right-decoration"></div>
       <div class="circle"></div>
+      
+      
       <div class="form-inner">
+        
         <h1 style="text-align: center;">Enter Location Of The Submissions Folder:</h1>
         <input type = "text" name = "fileName" placeholder="Please Enter File Path"/>
+        <label for="questions">Choose a question:</label>
+        <select name="questions" id="questions">
+          <option value="all">All</option>
+          <option value="q3">Question 3</option>
+          <option value="q4">Question 4</option>
+          
+        </select>
         <button type = "submit" onclick="loading()"> Submit </button>
+      </div>
+
     </form>
   </body>
 </html>
