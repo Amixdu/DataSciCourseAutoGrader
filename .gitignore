@@ -2,4 +2,5 @@ backup.py
 test.txt
 
 /node_modules
+/samples
 /__pycache__

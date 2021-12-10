@@ -22,30 +22,38 @@ for file in onlyfiles:
     fileName = lst[0]
     fileNames.append(fileName)
 
+    fileArr = fileName.split('_')
+
     # initialize points
-    gradeDictionary[fileName] = 0
+    gradeDictionary[fileArr[0]] = 0
 
 
 
 
-def testQ1(func, studName):
+def testQ1(func, fileName):
     from solutions.Q3Sol import q3 as answer
+
+    fileArr = fileName.split('_')
+    studentName = fileArr[0]
 
     res = ""
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
-        res += (studName + ": solution for Q3 is working <br>")
-        gradeDictionary[studName] = gradeDictionary[studName] + 1
+        res += (studentName + ": solution for Q3 is working <br>")
+        gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
-        res += (studName + ": solution for Q3 is incorrect <br>")
+        res += (studentName + ": solution for Q3 is incorrect <br>")
 
     return res
 
 
 
 
-def testQ2(func, studName):
+def testQ2(func, fileName):
     from solutions.Q4Sol import q4 as answer
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
 
     res = ""
 
@@ -71,20 +79,52 @@ def listToString(s):
     # return string  
     return str1 
 
+from inspect import getmembers, isfunction
 
+question = 3
 results = []
 for f in fileNames:
+    # CHECK PATH
     fileToImport = 'uploads.' + f
     testModule = importlib.import_module(fileToImport)
 
-    q1Func = testModule.q3
-    results.append(testQ1(q1Func, f))
+    functionName = (getmembers(testModule, isfunction)[0][0])
+    # y = testModule.__name__
+    # print(y)
+    
+    # q3Func = testModule.q3
+    # q4Func = testModule.q4
+    func = getattr(testModule, functionName)
 
-    q2Func = testModule.q4
-    results.append(testQ2(q2Func, f))
+    
+    fileArr = f.split('_')
 
-    results.append(f + " score: <strong>" + str((gradeDictionary[f]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
-    results.append("<br><br>")
+
+
+    if (fileArr[1] == "Q3"):
+        results.append(testQ1(func, f))
+        
+
+    if (fileArr[1] == "Q4"):
+        results.append(testQ2(func, f))
+
+
+    
+
+
+results.append("<br><br>Sores: <br>")
+
+students = [(file.split('_')[0]) for file in fileNames]
+studentsUnique = list(dict.fromkeys(students))
+
+for student in studentsUnique:
+    results.append(student + " score: <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
+    results.append("<br>")
+
+
+
+   
+
 
 
 
