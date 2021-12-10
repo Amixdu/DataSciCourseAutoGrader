@@ -44,11 +44,11 @@ def testQ3(func, fileName):
     res = ""
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
-        res += ("Q3 is correct <br>")
+        res += tableFormRecords("Question 3", "Correct")
         questionDictionary[fileName] = "Solution for Q3 is correct <br>"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
-        res += ("Q3 is incorrect <br>")
+        res += tableFormRecords("Question 3", "Incorrect")
         questionDictionary[fileName] = "Solution for Q3 is incorrect <br>"
 
     return res
@@ -65,11 +65,11 @@ def testQ4(func, fileName):
     res = ""
 
     if (func(10) == answer(10) and func(2) == answer(2) and func(5) == answer(5)):
-        res += ("Q4 is correct <br>")
+        res += tableFormRecords("Question 4", "Correct")
         questionDictionary[fileName] = "Solution for Q3 is correct <br>"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += ("Q4 is incorrect <br>")
+        res += tableFormRecords("Question 4", "Incorrect")
         questionDictionary[fileName] = "Solution for Q3 is incorrect <br>"
 
     return res
@@ -93,7 +93,38 @@ def listToString(s):
 def testAll(filesToTest):
     newName = True
     prev = ""
-    res = ""
+    res = """
+    <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8"/>
+            <title>DIEM Javascript Challenge Results Template</title>
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+            <script>
+                function goBack(){
+                    location.href = "index.html";
+                }
+            </script>
+          </head>
+          <body style="background-color: #2f6fa3;">
+            <div id="container">
+                <div id="title" style="color: #d0dfe8; font-size: 3em; margin-bottom: 1em; text-align: center;">
+                    <u><strong>PERFORMANCE REVIEW OF YOUR CODE</strong></u>
+                </div>
+                <div id="table" style="background-color:white; width: 75%; margin: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="font-size: 1.35em;">Student</th>
+                                <th scope="col" style="font-size: 1.35em;">Question</th>
+                                <th scope="col" style="font-size: 1.35em;">Result</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+    """
     for f in filesToTest:
         # CHECK PATH
         fileToImport = 'uploads.' + f
@@ -113,9 +144,11 @@ def testAll(filesToTest):
             newName = True
 
         if (newName):
-            res += ("<br>" + fileArr[0] + ":<br>")
-
-
+            res += tableFormHeading(fileArr[0])
+        else:
+            res += tableFormHeading("")
+            
+            
         if (fileArr[1] == "Q3"):
             res += (testQ3(func, f))
             
@@ -126,11 +159,22 @@ def testAll(filesToTest):
         prev = fileArr[0]
         newName = False
 
-
     
+    res += """
+    </tbody>
+                    </table>
+                </div><br><br>  
+                <div id="totalScore">
+                    <div id="subtitle" style="color: #d0dfe8; font-size: 1.5em; margin-bottom: 1em; text-align: center;">
+                        <strong>Final Results</strong>
+                    </div>
+                    <div class="card text-dark bg-light mb-3" style="width: 50%; margin: auto;">
+                        <div class="card-header">Results Overview</div>
+                        <div class="card-body">
+                          
+    """
 
     if (question == "all"):
-        res += "<br><br>Scores: <br>"
         students = [(file.split('_')[0]) for file in filesToTest]
         studentsUnique = list(dict.fromkeys(students))
 
@@ -138,6 +182,20 @@ def testAll(filesToTest):
 
             res += (student + " : <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
             res += "<br>"
+
+
+    res += """
+                            
+                        
+                        </div>
+                      </div>
+                      <div class="col text-center">
+                        <button type="button" class="btn btn-light" onClick="goBack()" style="margin-top: 1.5rem; margin-bottom: 0.5em;"><i class="bi bi-arrow-left"></i> Go Back</button>
+                    </div>
+                </div>
+            </div>
+          </body>
+        </html>"""
 
     return res
 
@@ -150,6 +208,24 @@ def filterFun(q):
             filtered.append(file)
     return filtered
 
+
+def tableFormHeading(val):
+    return (""" 
+            <tr>
+                <td>""" 
+                + val + """</td>
+            """)
+
+def tableFormRecords(ques, result):
+    return (""" 
+                <td>""" 
+                + ques + """</td>
+
+                <td>""" 
+                + result + """</td>
+
+            </tr>
+            """)
 
 
 def testQues3():
