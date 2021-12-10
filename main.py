@@ -12,7 +12,7 @@ questionDictionary = {}
 
 # mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
 mypath = sys.argv[1]
-# question = "q3"
+# question = "all"
 question = sys.argv[2]
 
 from os import listdir
@@ -30,7 +30,7 @@ for file in onlyfiles:
     # initialize points
     gradeDictionary[fileArr[0]] = 0
 
-    questionDictionary[file] = ""
+    questionDictionary[fileName] = ""
 
 
 
@@ -45,11 +45,11 @@ def testQ3(func, fileName):
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
         res += tableFormRecords("Question 3", "Correct")
-        questionDictionary[fileName] = "Solution for Q3 is correct <br>"
+        questionDictionary[fileName] = "Correct"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
         res += tableFormRecords("Question 3", "Incorrect")
-        questionDictionary[fileName] = "Solution for Q3 is incorrect <br>"
+        questionDictionary[fileName] = "Incorrect"
 
     return res
 
@@ -66,11 +66,11 @@ def testQ4(func, fileName):
 
     if (func(10) == answer(10) and func(2) == answer(2) and func(5) == answer(5)):
         res += tableFormRecords("Question 4", "Correct")
-        questionDictionary[fileName] = "Solution for Q3 is correct <br>"
+        questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
         res += tableFormRecords("Question 4", "Incorrect")
-        questionDictionary[fileName] = "Solution for Q3 is incorrect <br>"
+        questionDictionary[fileName] = "Incorrect"
 
     return res
 
@@ -98,7 +98,7 @@ def testAll(filesToTest):
         <html>
         <head>
             <meta charset="utf-8"/>
-            <title>DIEM Javascript Challenge Results Template</title>
+            <title>Data Sci Course Grader</title>
             <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
@@ -112,7 +112,7 @@ def testAll(filesToTest):
           <body style="background-color: #2f6fa3;">
             <div id="container">
                 <div id="title" style="color: #d0dfe8; font-size: 3em; margin-bottom: 1em; text-align: center;">
-                    <u><strong>PERFORMANCE REVIEW OF YOUR CODE</strong></u>
+                    <u><strong>Grading Results:</strong></u>
                 </div>
                 <div id="table" style="background-color:white; width: 75%; margin: auto;">
                     <table class="table">
@@ -198,8 +198,21 @@ def testAll(filesToTest):
           </body>
         </html>"""
 
+    generateCSV()
+
     return res
 
+
+def generateCSV():
+    import csv
+    with open('results.csv', mode='w', newline='') as results_file:
+        results_writer = csv.writer(results_file)
+        results_writer.writerow(["Student", "QuestionNumber", "Result"])
+        for key in questionDictionary:
+            studID = key.split('_')[0]
+            questionNum = key.split('_')[1]
+            result = questionDictionary[key]
+            results_writer.writerow([studID, questionNum, result])
 
 
 def filterFun(q):
