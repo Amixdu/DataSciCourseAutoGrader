@@ -93,7 +93,7 @@ def listToString(s):
 def testAll(filesToTest):
     newName = True
     prev = ""
-    results = []
+    res = ""
     for f in filesToTest:
         # CHECK PATH
         fileToImport = 'uploads.' + f
@@ -113,30 +113,33 @@ def testAll(filesToTest):
             newName = True
 
         if (newName):
-            results.append("<br>" + fileArr[0] + ":<br>")
+            res += ("<br>" + fileArr[0] + ":<br>")
 
 
         if (fileArr[1] == "Q3"):
-            results.append(testQ3(func, f))
+            res += (testQ3(func, f))
             
 
         if (fileArr[1] == "Q4"):
-            results.append(testQ4(func, f))
+            res += (testQ4(func, f))
 
         prev = fileArr[0]
         newName = False
 
 
-    results.append("<br><br>Sores: <br>")
+    
 
-    students = [(file.split('_')[0]) for file in filesToTest]
-    studentsUnique = list(dict.fromkeys(students))
+    if (question == "all"):
+        res += "<br><br>Scores: <br>"
+        students = [(file.split('_')[0]) for file in filesToTest]
+        studentsUnique = list(dict.fromkeys(students))
 
-    for student in studentsUnique:
-        results.append(student + " score: <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
-        results.append("<br>")
+        for student in studentsUnique:
 
-    return (listToString(results))
+            res += (student + " : <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
+            res += "<br>"
+
+    return res
 
 
 
