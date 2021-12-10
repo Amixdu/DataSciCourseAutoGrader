@@ -213,7 +213,10 @@ def generateCSV():
             studID = key.split('_')[0]
             questionNum = key.split('_')[1]
             result = questionDictionary[key]
-            results_writer.writerow([studID, questionNum, result])
+            if (question == questionNum.lower()):
+                results_writer.writerow([studID, questionNum, result])
+            
+            
 
 
 
