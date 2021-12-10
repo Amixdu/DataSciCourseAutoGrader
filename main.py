@@ -184,6 +184,8 @@ def testAll(filesToTest):
             res += (student + " : <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
             res += "<br>"
 
+        generateScoreSheet()
+
 
     res += """
                             
@@ -202,9 +204,8 @@ def testAll(filesToTest):
 
     return res
 
-
+import csv
 def generateCSV():
-    import csv
     with open('results.csv', mode='w', newline='') as results_file:
         results_writer = csv.writer(results_file)
         results_writer.writerow(["Student", "QuestionNumber", "Result"])
@@ -213,6 +214,23 @@ def generateCSV():
             questionNum = key.split('_')[1]
             result = questionDictionary[key]
             results_writer.writerow([studID, questionNum, result])
+
+
+
+def generateScoreSheet():
+    with open('grades.csv', mode='w', newline='') as grades_file:
+        grades_writer = csv.writer(grades_file)
+        grades_writer.writerow(["Student", "TotalGrade", "FinalResult"])
+        for key in gradeDictionary:
+            score = ((gradeDictionary[key]/NUMBER_OF_QUESTIONS) * 100)
+            result = ""
+            if score >= 50:
+                result = "Pass"
+            else:
+                result = "Fail"
+
+            grades_writer.writerow([key, (str(score) + "%"), result])
+
 
 
 def filterFun(q):
