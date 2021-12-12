@@ -225,8 +225,8 @@ def generateCSV():
 
     current = os.getcwd() 
     save_path = "/results/"
-    fn = "results.csv"
-    
+    fn = "results_" + question + ".csv"
+
     with open(current + save_path + fn, mode='w', newline='') as results_file:
         results_writer = csv.writer(results_file)
         results_writer.writerow(["Student", "QuestionNumber", "Result"])
