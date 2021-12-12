@@ -2,7 +2,7 @@ import json
 import importlib
 import sys
 from inspect import getmembers, isfunction
-import os.path
+import os
 
 gbl = globals()
 
@@ -16,9 +16,13 @@ mypath = sys.argv[1]
 # question = "all"
 question = sys.argv[2]
 
+
+
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+
+
 
 fileNames = []
 for file in onlyfiles:
@@ -34,6 +38,16 @@ for file in onlyfiles:
     questionDictionary[fileName] = ""
 
 
+def createFolder():
+    d = os.path.dirname(__file__) # directory of script
+    p = r'{}/results'.format(d) # path to be created
+
+    try:
+        os.makedirs(p)
+    except OSError:
+        pass
+
+
 
 
 def testQ3(func, fileName):
@@ -46,11 +60,11 @@ def testQ3(func, fileName):
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
         res += tableFormRecords("Question 3", "&#9989")
-        questionDictionary[fileName] = "Correct;"
+        questionDictionary[fileName] = "Correct"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
         res += tableFormRecords("Question 3", "&#10060")
-        questionDictionary[fileName] = "Incorrect;"
+        questionDictionary[fileName] = "Incorrect"
 
     return res
 
@@ -92,6 +106,7 @@ def listToString(s):
 
 
 def testAll(filesToTest):
+    createFolder()
     newName = True
     prev = ""
     res = """
@@ -207,15 +222,19 @@ def testAll(filesToTest):
 
 import csv
 def generateCSV():
+
+    current = os.getcwd() 
+    save_path = "/results/"
+    fn = "results.csv"
     
-    with open("results.csv", mode='w', newline='') as results_file:
+    with open(current + save_path + fn, mode='w', newline='') as results_file:
         results_writer = csv.writer(results_file)
         results_writer.writerow(["Student", "QuestionNumber", "Result"])
         for key in questionDictionary:
             studID = key.split('_')[0]
             questionNum = key.split('_')[1]
             result = questionDictionary[key]
-            if (question == questionNum.lower()):
+            if (question == questionNum.lower() or (question == "all")):
                 results_writer.writerow([studID, questionNum, result])
             
             
@@ -223,7 +242,13 @@ def generateCSV():
 
 
 def generateScoreSheet():
-    with open('grades.csv', mode='w', newline='') as grades_file:
+    current = os.getcwd() 
+    save_path = "/results/"
+    fn = "grades.csv"
+    
+
+    # with fpath.open(mode='w+', newline='') as grades_file:
+    with open(current + save_path + fn, mode='w', newline='') as grades_file:
         grades_writer = csv.writer(grades_file)
         grades_writer.writerow(["Student", "TotalGrade", "FinalResult"])
         for key in gradeDictionary:

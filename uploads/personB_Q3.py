@@ -1,7 +1,5 @@
 def q3(x):
-    if x < 0: 
-        f = open('test.txt', 'w+')
-        f.write(str(x))
+    if x < 0:
         return True
     else:
         return False
