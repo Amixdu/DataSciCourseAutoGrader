@@ -2,6 +2,7 @@ import json
 import importlib
 import sys
 from inspect import getmembers, isfunction
+import os.path
 
 gbl = globals()
 
@@ -44,12 +45,12 @@ def testQ3(func, fileName):
     res = ""
 
     if (func(50) == answer(50) and (func(1) == answer(1))):
-        res += tableFormRecords("Question 3", "Correct")
-        questionDictionary[fileName] = "Correct"
+        res += tableFormRecords("Question 3", "&#9989")
+        questionDictionary[fileName] = "Correct;"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
-        res += tableFormRecords("Question 3", "Incorrect")
-        questionDictionary[fileName] = "Incorrect"
+        res += tableFormRecords("Question 3", "&#10060")
+        questionDictionary[fileName] = "Incorrect;"
 
     return res
 
@@ -65,11 +66,11 @@ def testQ4(func, fileName):
     res = ""
 
     if (func(10) == answer(10) and func(2) == answer(2) and func(5) == answer(5)):
-        res += tableFormRecords("Question 4", "Correct")
+        res += tableFormRecords("Question 4", "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords("Question 4", "Incorrect")
+        res += tableFormRecords("Question 4", "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
@@ -206,7 +207,8 @@ def testAll(filesToTest):
 
 import csv
 def generateCSV():
-    with open('results.csv', mode='w', newline='') as results_file:
+    
+    with open("results.csv", mode='w', newline='') as results_file:
         results_writer = csv.writer(results_file)
         results_writer.writerow(["Student", "QuestionNumber", "Result"])
         for key in questionDictionary:
