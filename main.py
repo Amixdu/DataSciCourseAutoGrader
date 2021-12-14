@@ -174,12 +174,8 @@ def testAll(filesToTest):
         fileToImport = 'scripts.' + f
         testModule = importlib.import_module(fileToImport)
 
+        # below line gets funtion name from script
         functionName = (getmembers(testModule, isfunction)[0][0])
-        # y = testModule.__name__
-        # print(y)
-        
-        # q3Func = testModule.q3
-        # q4Func = testModule.q4
         func = getattr(testModule, functionName)
         
         fileArr = f.split('_')
@@ -194,10 +190,18 @@ def testAll(filesToTest):
             
             
         if (fileArr[1] == "Q3"):
+            # if name of main function known:
+            # res += (testQ3(testModule.q3, f))
+
+            # if only one function
             res += (testQ3(func, f))
             
 
         if (fileArr[1] == "Q4"):
+            # if name of main function known:
+            # res += (testQ4(testModule.q4, f))
+
+            # if only one function
             res += (testQ4(func, f))
 
         prev = fileArr[0]
@@ -325,8 +329,6 @@ def testQues3():
 def testQues4():
     filtered = filterFun("q4")
     return testAll(filtered)
-
-
 
 if question == "all":
     print(testAll(fileNames))
