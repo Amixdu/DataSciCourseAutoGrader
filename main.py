@@ -4,6 +4,9 @@ import sys
 from inspect import getmembers, isfunction
 import os
 
+import nbformat
+from nbconvert import PythonExporter
+
 gbl = globals()
 
 NUMBER_OF_QUESTIONS = 2
@@ -15,7 +18,6 @@ questionDictionary = {}
 noteBookFolder = sys.argv[1]
 # question = "all"
 question = sys.argv[2]
-
 
 
 def createFolder(name):
@@ -30,10 +32,7 @@ def createFolder(name):
 # create folder for converted python scripts
 createFolder("scripts")
 
-
-import nbformat
-from nbconvert import PythonExporter
-
+# to convert note book to python script
 def convertNotebook(notebookPath, modulePath):
 
   with open(notebookPath) as fh:
@@ -46,7 +45,10 @@ def convertNotebook(notebookPath, modulePath):
     fh.writelines(source)
 
 
-scriptsFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\scripts"
+# scriptsFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\scripts"
+current = os.getcwd() 
+save_path = "/scripts"
+scriptsFolder = current + save_path
 
 
 
