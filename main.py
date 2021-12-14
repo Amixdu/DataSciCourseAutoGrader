@@ -11,17 +11,49 @@ NUMBER_OF_QUESTIONS = 2
 gradeDictionary = {}
 questionDictionary = {}
 
-# mypath = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
-mypath = sys.argv[1]
+# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+noteBookFolder = sys.argv[1]
 # question = "all"
 question = sys.argv[2]
 
 
 
+def createFolder(name):
+    d = os.path.dirname(__file__) # directory of script
+    p = (r'{}/'+str(name)).format(d) # path to be created
+
+    try:
+        os.makedirs(p)
+    except OSError:
+        pass
+
+# create folder for converted python scripts
+createFolder("scripts")
+
+
+import nbformat
+from nbconvert import PythonExporter
+
+def convertNotebook(notebookPath, modulePath):
+
+  with open(notebookPath) as fh:
+    nb = nbformat.reads(fh.read(), nbformat.NO_CONVERT)
+
+  exporter = PythonExporter()
+  source, meta = exporter.from_notebook_node(nb)
+
+  with open(modulePath, 'w+') as fh:
+    fh.writelines(source)
+
+
+scriptsFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\scripts"
+
+
+
+
 from os import listdir
 from os.path import isfile, join
-onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-
+onlyfiles = [f for f in listdir(noteBookFolder) if isfile(join(noteBookFolder, f))]
 
 
 fileNames = []
@@ -37,15 +69,9 @@ for file in onlyfiles:
 
     questionDictionary[fileName] = ""
 
-
-def createFolder():
-    d = os.path.dirname(__file__) # directory of script
-    p = r'{}/results'.format(d) # path to be created
-
-    try:
-        os.makedirs(p)
-    except OSError:
-        pass
+    noteBookPath = (noteBookFolder + "\\" + str(file))
+    scriptPath = (scriptsFolder + "\\" + str(fileName) + ".py")
+    convertNotebook(noteBookPath, scriptPath)
 
 
 
@@ -106,7 +132,7 @@ def listToString(s):
 
 
 def testAll(filesToTest):
-    createFolder()
+    createFolder("results")
     newName = True
     prev = ""
     res = """
@@ -143,7 +169,7 @@ def testAll(filesToTest):
     """
     for f in filesToTest:
         # CHECK PATH
-        fileToImport = 'uploads.' + f
+        fileToImport = 'scripts.' + f
         testModule = importlib.import_module(fileToImport)
 
         functionName = (getmembers(testModule, isfunction)[0][0])

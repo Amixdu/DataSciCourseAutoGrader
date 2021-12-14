@@ -4,3 +4,4 @@ test.txt
 /node_modules
 /samples
 /__pycache__
+/scripts
