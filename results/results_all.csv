@@ -1,8 +1,8 @@
 Student,QuestionNumber,Result
-personA,Q3,Correct
+personA,Q3,Incorrect
 personA,Q4,Incorrect
 personB,Q3,Incorrect
 personB,Q4,Correct
-personC,Q3,Correct
+personC,Q3,Incorrect
 personC,Q4,Correct
 personD,Q4,Correct

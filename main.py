@@ -76,24 +76,39 @@ for file in onlyfiles:
     convertNotebook(noteBookPath, scriptPath)
 
 
+def testProvidedCases(func, answer, testCases):
+    allCorrect = True
+    try:
+        for case in testCases:
+            if (func(case) != (answer(case))):
+                allCorrect = False
+    except:
+        allCorrect = False
+    
+    return allCorrect
+
 
 
 def testQ3(func, fileName):
     from solutions.Q3Sol import q3 as answer
+    testCases = [0, 1, 50, -1]
 
     fileArr = fileName.split('_')
     studentName = fileArr[0]
 
     res = ""
 
-    if (func(50) == answer(50) and (func(1) == answer(1))):
+    allCorrect = testProvidedCases(func, answer, testCases)
+
+   
+    if (allCorrect):
         res += tableFormRecords("Question 3", "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
         res += tableFormRecords("Question 3", "&#10060")
         questionDictionary[fileName] = "Incorrect"
-
+   
     return res
 
 
@@ -102,12 +117,16 @@ def testQ3(func, fileName):
 def testQ4(func, fileName):
     from solutions.Q4Sol import q4 as answer
 
+    testCases = [2, 5, 10]
+
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
     res = ""
 
-    if (func(10) == answer(10) and func(2) == answer(2) and func(5) == answer(5)):
+    allCorrect = testProvidedCases(func, answer, testCases)
+    
+    if (allCorrect):
         res += tableFormRecords("Question 4", "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
@@ -116,21 +135,6 @@ def testQ4(func, fileName):
         questionDictionary[fileName] = "Incorrect"
 
     return res
-
-
-
-def listToString(s): 
-    
-    # initialize an empty string
-    str1 = "" 
-    
-    # traverse in the string  
-    for ele in s: 
-        str1 += ele  
-    
-    # return string  
-    return str1 
-
 
 
 def testAll(filesToTest):
