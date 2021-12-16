@@ -77,67 +77,106 @@ for file in onlyfiles:
     convertNotebook(noteBookPath, scriptPath)
 
 
-
-
-def testProvidedCases(func, answer, testCases):
+def testProvidedCases(func, answer, testCases, params, studentName, q):
     allCorrect = True
+    res = ""
     try:
         for case in testCases:
-            if (func(case) != (answer(case))):
-                allCorrect = False
+            if (params == 1):
+                if (func(case) != (answer(case))):
+                    allCorrect = False
+            elif (params == 2):
+                if (func(case[0], case[1]) != answer(case[0], case[1])):
+                    allCorrect = False
     except:
         allCorrect = False
+
+    q_str = "Question " + q
+    if (allCorrect):
+        res += tableFormRecords(q_str, "&#9989")
+        questionDictionary[fileName] = "Correct"
+        gradeDictionary[studentName] = gradeDictionary[studentName] + 1
+    else:
+        res += tableFormRecords(q_str, "&#10060")
+        questionDictionary[fileName] = "Incorrect"
+   
+    return res
+
     
-    return allCorrect
+    
+    # return allCorrect
 
 
 
 def testQ1(func, fileName):
-    from solutions.Q1Sol import positive_integer as answer
+    from solutions.solutions import positive_integer as answer
     testCases = [0, 1, 50, -1]
 
     fileArr = fileName.split('_')
     studentName = fileArr[0]
 
-    res = ""
-
-    allCorrect = testProvidedCases(func, answer, testCases)
+    return testProvidedCases(func, answer, testCases, 1, studentName, "1")
 
    
-    if (allCorrect):
-        res += tableFormRecords("Question 1", "&#9989")
-        questionDictionary[fileName] = "Correct"
-        gradeDictionary[studentName] = gradeDictionary[studentName] + 1
-    else:
-        res += tableFormRecords("Question 1", "&#10060")
-        questionDictionary[fileName] = "Incorrect"
-   
-    return res
-
-
-
 
 def testQ2(func, fileName):
-    from solutions.Q2Sol import multiples as answer
+    from solutions.solutions import multiples as answer
 
     testCases = [2, 5, 10]
 
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    res = ""
-
-    allCorrect = testProvidedCases(func, answer, testCases)
+    return testProvidedCases(func, answer, testCases, 1, studName, "2")
     
+    
+
+
+def testQ3(func, fileName):
+    from solutions.solutions import product as answer
+
+    testCases = [(2,2), (3, 5), (0, 10), (2, 0)]
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    return testProvidedCases(func, answer, testCases, 2, studName, "3")
+
+
+def testQ4(func, fileName):
+    from solutions.solutions import student_grade as answer
+    import io
+
+    testCases = [0, 10, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, -1]
+    # testCases = [60]
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    allCorrect = True
+    res = ""
+    try:
+        for case in testCases:
+            capturedOutput = io.StringIO()
+            sys.stdout = capturedOutput      
+            func(case)
+            sys.stdout = sys.__stdout__  
+            if (capturedOutput.getvalue() != (answer(case)) and (capturedOutput.getvalue() != (answer(case) + "\n"))):
+                allCorrect = False
+    except:
+        allCorrect = False
+
+    q_str = "Question 4"
     if (allCorrect):
-        res += tableFormRecords("Question 2", "&#9989")
+        res += tableFormRecords(q_str, "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords("Question 2", "&#10060")
+        res += tableFormRecords(q_str, "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
+    
 
 
 def testAll(filesToTest):
@@ -196,7 +235,7 @@ def testAll(filesToTest):
             res += tableFormHeading("")
             
             
-        if (fileArr[1] == "Q1"):
+        if ((fileArr[1]).lower() == "q1"):
             # if name of main function known:
             res += (testQ1(testModule.positive_integer, f))
 
@@ -204,12 +243,16 @@ def testAll(filesToTest):
             # res += (testQ1(func, f))
             
 
-        if (fileArr[1] == "Q2"):
+        if ((fileArr[1]).lower() == "q2"):
             # if name of main function known:
             res += (testQ2(testModule.multiples, f))
 
-            # if only one function
-            # res += (testQ2(func, f))
+        if ((fileArr[1]).lower() == "q3"):
+            res += (testQ3(testModule.product, f))
+
+        if ((fileArr[1]).lower() == "q4"):
+            res += (testQ4(testModule.student_grade, f))
+
 
         prev = fileArr[0]
         newName = False
