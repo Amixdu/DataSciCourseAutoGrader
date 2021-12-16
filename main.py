@@ -105,11 +105,11 @@ def testQ1(func, fileName):
 
    
     if (allCorrect):
-        res += tableFormRecords("Question 3", "&#9989")
+        res += tableFormRecords("Question 1", "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
-        res += tableFormRecords("Question 3", "&#10060")
+        res += tableFormRecords("Question 1", "&#10060")
         questionDictionary[fileName] = "Incorrect"
    
     return res
@@ -130,11 +130,11 @@ def testQ2(func, fileName):
     allCorrect = testProvidedCases(func, answer, testCases)
     
     if (allCorrect):
-        res += tableFormRecords("Question 4", "&#9989")
+        res += tableFormRecords("Question 2", "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords("Question 4", "&#10060")
+        res += tableFormRecords("Question 2", "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
@@ -327,20 +327,20 @@ def tableFormRecords(ques, result):
             """)
 
 
-def testQues3():
+def testQues1():
     filtered = filterFun("q1")
     return testAll(filtered)
 
-def testQues4():
+def testQues2():
     filtered = filterFun("q2")
     return testAll(filtered)
 
 if question == "all":
     print(testAll(fileNames))
 elif question == "q1":
-    print(testQues3())
+    print(testQues1())
 elif question == "q2":
-    print(testQues4())
+    print(testQues2())
 
 
 
