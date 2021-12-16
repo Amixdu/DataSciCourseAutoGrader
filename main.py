@@ -58,6 +58,7 @@ from os.path import isfile, join
 onlyfiles = [f for f in listdir(noteBookFolder) if isfile(join(noteBookFolder, f))]
 
 
+
 fileNames = []
 for file in onlyfiles:
     lst = file.split(".")
@@ -76,6 +77,8 @@ for file in onlyfiles:
     convertNotebook(noteBookPath, scriptPath)
 
 
+
+
 def testProvidedCases(func, answer, testCases):
     allCorrect = True
     try:
@@ -89,8 +92,8 @@ def testProvidedCases(func, answer, testCases):
 
 
 
-def testQ3(func, fileName):
-    from solutions.Q3Sol import q3 as answer
+def testQ1(func, fileName):
+    from solutions.Q1Sol import positive_integer as answer
     testCases = [0, 1, 50, -1]
 
     fileArr = fileName.split('_')
@@ -114,8 +117,8 @@ def testQ3(func, fileName):
 
 
 
-def testQ4(func, fileName):
-    from solutions.Q4Sol import q4 as answer
+def testQ2(func, fileName):
+    from solutions.Q2Sol import multiples as answer
 
     testCases = [2, 5, 10]
 
@@ -193,20 +196,20 @@ def testAll(filesToTest):
             res += tableFormHeading("")
             
             
-        if (fileArr[1] == "Q3"):
+        if (fileArr[1] == "Q1"):
             # if name of main function known:
-            # res += (testQ3(testModule.q3, f))
+            res += (testQ1(testModule.positive_integer, f))
 
             # if only one function
-            res += (testQ3(func, f))
+            # res += (testQ1(func, f))
             
 
-        if (fileArr[1] == "Q4"):
+        if (fileArr[1] == "Q2"):
             # if name of main function known:
-            # res += (testQ4(testModule.q4, f))
+            res += (testQ2(testModule.multiples, f))
 
             # if only one function
-            res += (testQ4(func, f))
+            # res += (testQ2(func, f))
 
         prev = fileArr[0]
         newName = False
@@ -239,9 +242,7 @@ def testAll(filesToTest):
         generateScoreSheet()
 
 
-    res += """
-                            
-                        
+    res += """     
                         </div>
                       </div>
                       <div class="col text-center">
@@ -327,18 +328,18 @@ def tableFormRecords(ques, result):
 
 
 def testQues3():
-    filtered = filterFun("q3")
+    filtered = filterFun("q1")
     return testAll(filtered)
 
 def testQues4():
-    filtered = filterFun("q4")
+    filtered = filterFun("q2")
     return testAll(filtered)
 
 if question == "all":
     print(testAll(fileNames))
-elif question == "q3":
+elif question == "q1":
     print(testQues3())
-elif question == "q4":
+elif question == "q2":
     print(testQues4())
 
 
