@@ -231,42 +231,42 @@ def testQ6(func, fileName):
     return testProvidedCases(func, answer, testCases, 0, studName, "6")
 
 
-# def testQ7(func, fileName):
-#     from solutions.solutions import loops as answer1
-#     from solutions.solutions import loopsV2 as answer2
-#     import io
+def testQ7(func, fileName):
+    from solutions.solutions import loops as answer1
+    from solutions.solutions import loopsV2 as answer2
+    import io
 
-#     fileArr = fileName.split('_')
-#     studName = fileArr[0]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
 
-#     testCases = [0, 4, 10, 16, 24]
+    testCases = [0, 4, 10, 16, 24]
 
-#     correct = True
-#     res = ""
+    correct = True
+    res = ""
 
-#     q_str = "Question 7"
-#     try:
-#         for case in testCases:
-#             capturedOutput = io.StringIO()
-#             sys.stdout = capturedOutput      
-#             func(case)
-#             sys.stdout = sys.__stdout__  
-#             if ((capturedOutput.getvalue() != answer1(case)) and (capturedOutput.getvalue() != answer2(case))):
-#                 correct = False
-#     except:
-#         correct = False
+    q_str = "Question 7"
+    try:
+        for case in testCases:
+            capturedOutput = io.StringIO()
+            sys.stdout = capturedOutput      
+            func(case)
+            sys.stdout = sys.__stdout__  
+            if ((capturedOutput.getvalue() != answer1(case)) and (capturedOutput.getvalue() != answer2(case))):
+                correct = False
+    except:
+        correct = False
 
     
     
-#     if (correct):
-#         res += tableFormRecords(q_str, "&#9989")
-#         questionDictionary[fileName] = "Correct"
-#         gradeDictionary[studName] = gradeDictionary[studName] + 1
-#     else:
-#         res += tableFormRecords(q_str, "&#10060")
-#         questionDictionary[fileName] = "Incorrect"
+    if (correct):
+        res += tableFormRecords(q_str, "&#9989")
+        questionDictionary[fileName] = "Correct"
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
+    else:
+        res += tableFormRecords(q_str, "&#10060")
+        questionDictionary[fileName] = "Incorrect"
 
-#     return res
+    return res
 
 
 def testAll(filesToTest):
@@ -358,10 +358,10 @@ def testAll(filesToTest):
             testModule = importlib.import_module(fileToImport)
             res += (testQ6(testModule.odd_numbers, f))
 
-        # if ((fileArr[1]).lower() == "q7"):
-        #     fileToImport = 'scripts.' + f
-        #     testModule = importlib.import_module(fileToImport)
-        #     res += (testQ7(testModule.loops, f))
+        if ((fileArr[1]).lower() == "q7"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
+            res += (testQ7(testModule.loops, f))
 
 
         prev = fileArr[0]
