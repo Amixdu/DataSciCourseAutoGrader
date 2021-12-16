@@ -6,3 +6,5 @@ test.py
 /samples
 /__pycache__
 /scripts
+/uploads
+/results
