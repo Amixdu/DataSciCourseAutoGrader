@@ -193,17 +193,20 @@ def testQ5(fileName):
     q_str = "Question 5"
 
     # ADD TRY CATCH
+    try:
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput      
+        current = os.getcwd() 
+        path = "/scripts/"
+        fn = "personA_Q5.py"
+        full_path = current + path + fn
+        exec(open(full_path).read())
+        sys.stdout = sys.__stdout__  
+        if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
+            correct = True
+    except:
+        correct = False
 
-    capturedOutput = io.StringIO()
-    sys.stdout = capturedOutput      
-    current = os.getcwd() 
-    path = "/scripts/"
-    fn = "personA_Q5.py"
-    full_path = current + path + fn
-    exec(open(full_path).read())
-    sys.stdout = sys.__stdout__  
-    if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
-        correct = True
     
     
     if (correct):
