@@ -50,6 +50,7 @@ app.listen(port, () => console.log(`Example app listening on port http://localho
 
 
 function run(fp, ques, callback){
+    // python = spawn('python', ['solutions/test.py', fp, ques]);
     python = spawn('python', ['main.py', fp, ques]);
     callback();
 }

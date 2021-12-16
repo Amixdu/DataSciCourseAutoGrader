@@ -14,10 +14,10 @@ NUMBER_OF_QUESTIONS = 2
 gradeDictionary = {}
 questionDictionary = {}
 
-# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
-noteBookFolder = sys.argv[1]
-# question = "all"
-question = sys.argv[2]
+noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+# noteBookFolder = sys.argv[1]
+question = "all"
+# question = sys.argv[2]
 
 
 def createFolder(name):
@@ -176,7 +176,45 @@ def testQ4(func, fileName):
         questionDictionary[fileName] = "Incorrect"
 
     return res
+
+
+def testQ5(fileName):
+    from solutions.Q5Sol import q5v1 as answer1
+    from solutions.Q5Sol import q5v2 as answer2
+
+    import io
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    correct = False
+    res = ""
+
+    q_str = "Question 5"
+
+    # ADD TRY CATCH
+
+    capturedOutput = io.StringIO()
+    sys.stdout = capturedOutput      
+    current = os.getcwd() 
+    path = "/scripts/"
+    fn = "personA_Q5.py"
+    full_path = current + path + fn
+    exec(open(full_path).read())
+    sys.stdout = sys.__stdout__  
+    if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
+        correct = True
     
+    
+    if (correct):
+        res += tableFormRecords(q_str, "&#9989")
+        questionDictionary[fileName] = "Correct"
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
+    else:
+        res += tableFormRecords(q_str, "&#10060")
+        questionDictionary[fileName] = "Incorrect"
+
+    return res
 
 
 def testAll(filesToTest):
@@ -221,9 +259,8 @@ def testAll(filesToTest):
         testModule = importlib.import_module(fileToImport)
 
         # below line gets funtion name from script
-        functionName = (getmembers(testModule, isfunction)[0][0])
-        func = getattr(testModule, functionName)
-        
+        # functionName = (getmembers(testModule, isfunction)[0][0])
+        # func = getattr(testModule, functionName)
         fileArr = f.split('_')
 
         if (prev != fileArr[0]):
@@ -252,6 +289,9 @@ def testAll(filesToTest):
 
         if ((fileArr[1]).lower() == "q4"):
             res += (testQ4(testModule.student_grade, f))
+
+        if ((fileArr[1]).lower() == "q5"):
+            res += (testQ5(f))
 
 
         prev = fileArr[0]
@@ -384,6 +424,8 @@ elif question == "q1":
     print(testQues1())
 elif question == "q2":
     print(testQues2())
+
+# print(testQ5("x_a"))
 
 
 
