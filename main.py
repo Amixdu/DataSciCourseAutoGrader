@@ -9,15 +9,15 @@ from nbconvert import PythonExporter
 
 gbl = globals()
 
-NUMBER_OF_QUESTIONS = 6
+NUMBER_OF_QUESTIONS = 10
 
 gradeDictionary = {}
 questionDictionary = {}
 
-noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
-# noteBookFolder = sys.argv[1]
-question = "all"
-# question = sys.argv[2]
+# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+noteBookFolder = sys.argv[1]
+# question = "all"
+question = sys.argv[2]
 
 
 def createFolder(name):
@@ -211,11 +211,11 @@ def testQ5(fileName):
     
     if (correct):
         res += tableFormRecords(q_str, "&#9989")
-        # questionDictionary[fileName] = "Correct"
-        # gradeDictionary[studName] = gradeDictionary[studName] + 1
+        questionDictionary[fileName] = "Correct"
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
         res += tableFormRecords(q_str, "&#10060")
-        # questionDictionary[fileName] = "Incorrect"
+        questionDictionary[fileName] = "Incorrect"
 
     return res
 
@@ -255,6 +255,44 @@ def testQ7(func, fileName):
                 correct = False
     except:
         correct = False
+    
+    if (correct):
+        res += tableFormRecords(q_str, "&#9989")
+        questionDictionary[fileName] = "Correct"
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
+    else:
+        res += tableFormRecords(q_str, "&#10060")
+        questionDictionary[fileName] = "Incorrect"
+
+    return res
+
+
+def testQ8(fileName):
+    from solutions.Q8Sol import q8v1 as answer1
+    from solutions.Q8Sol import q8v2 as answer2
+
+    import io
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    correct = False
+    res = ""
+
+    q_str = "Question 8"
+    try:
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput      
+        current = os.getcwd() 
+        path = "/scripts/"
+        fn = fileName  + ".py"
+        full_path = current + path + fn
+        exec(open(full_path).read())
+        sys.stdout = sys.__stdout__  
+        if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
+            correct = True
+    except:
+        correct = False
 
     
     
@@ -268,6 +306,28 @@ def testQ7(func, fileName):
 
     return res
 
+
+def testQ9(func, fileName):
+    from solutions.solutions import string_manipulation as answer
+
+    testCases = []
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    return testProvidedCases(func, answer, testCases, 0, studName, "9")
+
+
+
+def testQ10(func, fileName):
+    from solutions.solutions import strings as answer
+
+    testCases = [("a", "b"), ("hello ","world!" )]
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    return testProvidedCases(func, answer, testCases, 2, studName, "10")
 
 def testAll(filesToTest):
     createFolder("results")
@@ -362,6 +422,19 @@ def testAll(filesToTest):
             fileToImport = 'scripts.' + f
             testModule = importlib.import_module(fileToImport)
             res += (testQ7(testModule.loops, f))
+
+        if ((fileArr[1]).lower() == "q8"):
+            res += (testQ8(f))
+
+        if ((fileArr[1]).lower() == "q9"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
+            res += (testQ9(testModule.string_manipulation, f))
+
+        if ((fileArr[1]).lower() == "q10"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
+            res += (testQ10(testModule.strings, f))
 
 
         prev = fileArr[0]
