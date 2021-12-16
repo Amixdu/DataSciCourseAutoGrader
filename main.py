@@ -9,7 +9,7 @@ from nbconvert import PythonExporter
 
 gbl = globals()
 
-NUMBER_OF_QUESTIONS = 2
+NUMBER_OF_QUESTIONS = 6
 
 gradeDictionary = {}
 questionDictionary = {}
@@ -82,7 +82,10 @@ def testProvidedCases(func, answer, testCases, params, studentName, q):
     res = ""
     try:
         for case in testCases:
-            if (params == 1):
+            if (params == 0):
+                if (func() != answer()):
+                    allCorrect = False
+            elif (params == 1):
                 if (func(case) != (answer(case))):
                     allCorrect = False
             elif (params == 2):
@@ -128,7 +131,6 @@ def testQ2(func, fileName):
     studName = fileArr[0]
 
     return testProvidedCases(func, answer, testCases, 1, studName, "2")
-    
     
 
 
@@ -191,14 +193,12 @@ def testQ5(fileName):
     res = ""
 
     q_str = "Question 5"
-
-    # ADD TRY CATCH
     try:
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput      
         current = os.getcwd() 
         path = "/scripts/"
-        fn = "personA_Q5.py"
+        fn = fileName  + ".py"
         full_path = current + path + fn
         exec(open(full_path).read())
         sys.stdout = sys.__stdout__  
@@ -211,13 +211,62 @@ def testQ5(fileName):
     
     if (correct):
         res += tableFormRecords(q_str, "&#9989")
-        questionDictionary[fileName] = "Correct"
-        gradeDictionary[studName] = gradeDictionary[studName] + 1
+        # questionDictionary[fileName] = "Correct"
+        # gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
         res += tableFormRecords(q_str, "&#10060")
-        questionDictionary[fileName] = "Incorrect"
+        # questionDictionary[fileName] = "Incorrect"
 
     return res
+
+
+def testQ6(func, fileName):
+    from solutions.solutions import odd_numbers as answer
+
+    testCases = []
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    return testProvidedCases(func, answer, testCases, 0, studName, "6")
+
+
+# def testQ7(func, fileName):
+#     from solutions.solutions import loops as answer1
+#     from solutions.solutions import loopsV2 as answer2
+#     import io
+
+#     fileArr = fileName.split('_')
+#     studName = fileArr[0]
+
+#     testCases = [0, 4, 10, 16, 24]
+
+#     correct = True
+#     res = ""
+
+#     q_str = "Question 7"
+#     try:
+#         for case in testCases:
+#             capturedOutput = io.StringIO()
+#             sys.stdout = capturedOutput      
+#             func(case)
+#             sys.stdout = sys.__stdout__  
+#             if ((capturedOutput.getvalue() != answer1(case)) and (capturedOutput.getvalue() != answer2(case))):
+#                 correct = False
+#     except:
+#         correct = False
+
+    
+    
+#     if (correct):
+#         res += tableFormRecords(q_str, "&#9989")
+#         questionDictionary[fileName] = "Correct"
+#         gradeDictionary[studName] = gradeDictionary[studName] + 1
+#     else:
+#         res += tableFormRecords(q_str, "&#10060")
+#         questionDictionary[fileName] = "Incorrect"
+
+#     return res
 
 
 def testAll(filesToTest):
@@ -258,8 +307,8 @@ def testAll(filesToTest):
     """
     for f in filesToTest:
         # CHECK PATH
-        fileToImport = 'scripts.' + f
-        testModule = importlib.import_module(fileToImport)
+        # fileToImport = 'scripts.' + f
+        # testModule = importlib.import_module(fileToImport)
 
         # below line gets funtion name from script
         # functionName = (getmembers(testModule, isfunction)[0][0])
@@ -277,6 +326,8 @@ def testAll(filesToTest):
             
         if ((fileArr[1]).lower() == "q1"):
             # if name of main function known:
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
             res += (testQ1(testModule.positive_integer, f))
 
             # if only one function
@@ -285,16 +336,32 @@ def testAll(filesToTest):
 
         if ((fileArr[1]).lower() == "q2"):
             # if name of main function known:
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
             res += (testQ2(testModule.multiples, f))
 
         if ((fileArr[1]).lower() == "q3"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
             res += (testQ3(testModule.product, f))
 
         if ((fileArr[1]).lower() == "q4"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
             res += (testQ4(testModule.student_grade, f))
 
         if ((fileArr[1]).lower() == "q5"):
             res += (testQ5(f))
+        
+        if ((fileArr[1]).lower() == "q6"):
+            fileToImport = 'scripts.' + f
+            testModule = importlib.import_module(fileToImport)
+            res += (testQ6(testModule.odd_numbers, f))
+
+        # if ((fileArr[1]).lower() == "q7"):
+        #     fileToImport = 'scripts.' + f
+        #     testModule = importlib.import_module(fileToImport)
+        #     res += (testQ7(testModule.loops, f))
 
 
         prev = fileArr[0]
@@ -322,7 +389,7 @@ def testAll(filesToTest):
 
         for student in studentsUnique:
 
-            res += (student + " : <strong>" + str((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100) + "%</strong>")
+            res += (student + " : <strong>" + str("{:.2f}".format((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100)) + "%</strong>")
             res += "<br>"
 
         generateScoreSheet()
@@ -375,9 +442,9 @@ def generateScoreSheet():
         grades_writer = csv.writer(grades_file)
         grades_writer.writerow(["Student", "TotalGrade", "FinalResult"])
         for key in gradeDictionary:
-            score = ((gradeDictionary[key]/NUMBER_OF_QUESTIONS) * 100)
+            score = "{:.2f}".format((gradeDictionary[key]/NUMBER_OF_QUESTIONS) * 100)
             result = ""
-            if score >= 50:
+            if float(score) >= 50:
                 result = "Pass"
             else:
                 result = "Fail"

@@ -49,12 +49,24 @@ def odd_numbers():
 
 # Q7
 def loops(x):
+    res = ""
     i = 0
     while i < x:
         if i % 4 == 0:
-            print(i)
+            res  += (str(i) + "\n")
             i += 1
         i += 1
+    return res
+
+def loopsV2(x):
+    res = ""
+    i = 0
+    while i < x:
+        if i % 4 == 0:
+            res  += str(i)
+            i += 1
+        i += 1
+    return res
 
 
 # # Q8

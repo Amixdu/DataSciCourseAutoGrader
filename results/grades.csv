@@ -1,5 +1,5 @@
 Student,TotalGrade,FinalResult
-personA,200.0%,Pass
-personB,50.0%,Pass
-personC,100.0%,Pass
-personD,50.0%,Pass
+personA,66.67%,Pass
+personB,16.67%,Fail
+personC,33.33%,Fail
+personD,16.67%,Fail
