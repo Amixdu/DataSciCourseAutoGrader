@@ -553,8 +553,8 @@ def tableFormRecords(ques, result):
             """)
 
 
-def testQues1():
-    filtered = filterFun("q1")
+def testQues(q):
+    filtered = filterFun(q)
     return testAll(filtered)
 
 def testQues2():
@@ -564,9 +564,26 @@ def testQues2():
 if question == "all":
     print(testAll(fileNames))
 elif question == "q1":
-    print(testQues1())
+    print(testQues("q1"))
 elif question == "q2":
-    print(testQues2())
+    print(testQues("q2"))
+elif question == "q3":
+    print(testQues("q3"))
+elif question == "q4":
+    print(testQues("q4"))
+elif question == "q5":
+    print(testQues("q5"))
+elif question == "q6":
+    print(testQues("q6"))
+elif question == "q7":
+    print(testQues("q7"))
+elif question == "q8":
+    print(testQues("q8"))
+elif question == "q9":
+    print(testQues("q9"))
+elif question == "q10":
+    print(testQues("q10"))
+
 
 # print(testQ5("x_a"))
 
