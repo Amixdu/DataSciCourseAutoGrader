@@ -2,7 +2,7 @@
 
 For setup (Needs NodeJS to be installed): <br>
 On main folder, run "npm install express" <br>
-Run "pip install --user nbformat nbconvert" <br>
+Run "pip install --user --no-warn-script-location nbformat nbconvert" <br>
 Run "node index.js" to start locally hosted server <br>
 Go to http://localhost:3000 <br>
 Enter file path of the folder that contains the python files to be tested and click submit <br>
