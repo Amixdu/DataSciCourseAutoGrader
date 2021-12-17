@@ -52,20 +52,17 @@ def loops(x):
     res = ""
     i = 0
     while i < x:
-        if i % 4 == 0:
-            res  += (str(i) + "\n")
-            i += 1
-        i += 1
+        res  += (str(i) + "\n")
+        i += 4
     return res
+
 
 def loopsV2(x):
     res = ""
     i = 0
     while i < x:
-        if i % 4 == 0:
-            res  += str(i)
-            i += 1
-        i += 1
+        res  += str(i)
+        i += 4
     return res
 
 
