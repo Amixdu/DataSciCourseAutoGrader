@@ -14,10 +14,10 @@ NUMBER_OF_QUESTIONS = 10
 gradeDictionary = {}
 questionDictionary = {}
 
-# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\sample_uploads"
-noteBookFolder = sys.argv[1]
-# question = "all"
-question = sys.argv[2]
+noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\sample_uploads"
+# noteBookFolder = sys.argv[1]
+question = "all"
+# question = sys.argv[2]
 
 
 def createFolder(name):
@@ -74,7 +74,10 @@ for file in onlyfiles:
 
     noteBookPath = (noteBookFolder + "\\" + str(file))
     scriptPath = (scriptsFolder + "\\" + str(fileName) + ".py")
-    convertNotebook(noteBookPath, scriptPath)
+    try:
+        convertNotebook(noteBookPath, scriptPath)
+    except:
+        pass
 
 def getKey(file):
     fileArr = file.split('_')
@@ -393,9 +396,13 @@ def testAll(filesToTest):
             
         if ((fileArr[1]).lower() == "q1"):
             # if name of main function known:
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ1(testModule.positive_integer, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ1(testModule.positive_integer, f))
+            except:
+                res += tableFormRecords("Question 1", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
             # if only one function
             # res += (testQ1(func, f))
@@ -403,45 +410,84 @@ def testAll(filesToTest):
 
         if ((fileArr[1]).lower() == "q2"):
             # if name of main function known:
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ2(testModule.multiples, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ2(testModule.multiples, f))
+            except:
+                res += tableFormRecords("Question 2", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
+
 
         if ((fileArr[1]).lower() == "q3"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ3(testModule.product, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ3(testModule.product, f))
+            except:
+                res += tableFormRecords("Question 3", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
+
 
         if ((fileArr[1]).lower() == "q4"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ4(testModule.student_grade, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ4(testModule.student_grade, f))
+            except:
+                res += tableFormRecords("Question 4", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
         if ((fileArr[1]).lower() == "q5"):
-            res += (testQ5(f))
+            try:
+                res += (testQ5(f))
+            except:
+                res += tableFormRecords("Question 5", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
         
         if ((fileArr[1]).lower() == "q6"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ6(testModule.odd_numbers, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ6(testModule.odd_numbers, f))
+            except:
+                res += tableFormRecords("Question 6", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
         if ((fileArr[1]).lower() == "q7"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ7(testModule.loops, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ7(testModule.loops, f))
+            except:
+                res += tableFormRecords("Question 7", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
         if ((fileArr[1]).lower() == "q8"):
-            res += (testQ8(f))
+            try:
+                res += (testQ8(f))
+            except:
+                res += tableFormRecords("Question 8", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
+
 
         if ((fileArr[1]).lower() == "q9"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ9(testModule.string_manipulation, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ9(testModule.string_manipulation, f))
+            except:
+                res += tableFormRecords("Question 9", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
         if ((fileArr[1]).lower() == "q10"):
-            fileToImport = 'scripts.' + f
-            testModule = importlib.import_module(fileToImport)
-            res += (testQ10(testModule.strings, f))
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testQ10(testModule.strings, f))
+            except:
+                res += tableFormRecords("Question 10", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
 
 
         prev = fileArr[0]
