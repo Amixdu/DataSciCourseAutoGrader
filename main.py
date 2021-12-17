@@ -376,7 +376,6 @@ def testAll(filesToTest):
                         <tbody>
     """
     for f in filesToTest:
-        # CHECK PATH
         # fileToImport = 'scripts.' + f
         # testModule = importlib.import_module(fileToImport)
 
@@ -637,8 +636,6 @@ elif question == "q9":
 elif question == "q10":
     print(testQues("q10"))
 
-
-# print(testQ5("x_a"))
 
 
 
