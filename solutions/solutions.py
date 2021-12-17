@@ -76,12 +76,9 @@ def loopsV2(x):
 
 
 # Q9
-def string_manipulation():
-    exercise = "The quick brown fox jumps over the lazy dog"
-    a = exercise [4:9]
-    b = exercise [16:19]
-    c = a + " " + b
-    return c
+def string_manipulation(string):  
+    c = string[:3] 
+    return c 
 
         
 

@@ -317,12 +317,12 @@ def testQ8(fileName):
 def testQ9(func, fileName):
     from solutions.solutions import string_manipulation as answer
 
-    testCases = []
+    testCases = ["abcdef", "hello world"]
 
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 0, studName, "9")
+    return testProvidedCases(func, answer, testCases, 1, studName, "9")
 
 
 
