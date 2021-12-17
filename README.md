@@ -1,6 +1,6 @@
 # AutoGrader
 
-For setup: <br>
+For setup (Needs NodeJS to be installed): <br>
 On main folder, run "npm install express" <br>
 Run "node index.js" to start locally hosted server <br>
 Go to http://localhost:3000 <br>
