@@ -14,10 +14,10 @@ NUMBER_OF_QUESTIONS = 10
 gradeDictionary = {}
 questionDictionary = {}
 
-noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\sample_uploads"
-# noteBookFolder = sys.argv[1]
-question = "all"
-# question = sys.argv[2]
+# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\sample_uploads"
+noteBookFolder = sys.argv[1]
+# question = "all"
+question = sys.argv[2]
 
 
 def createFolder(name):
