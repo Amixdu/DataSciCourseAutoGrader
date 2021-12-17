@@ -14,7 +14,7 @@ NUMBER_OF_QUESTIONS = 10
 gradeDictionary = {}
 questionDictionary = {}
 
-# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\uploads"
+# noteBookFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\sample_uploads"
 noteBookFolder = sys.argv[1]
 # question = "all"
 question = sys.argv[2]
@@ -59,11 +59,11 @@ onlyfiles = [f for f in listdir(noteBookFolder) if isfile(join(noteBookFolder, f
 
 
 
-fileNames = []
+fileNamesInitial = []
 for file in onlyfiles:
     lst = file.split(".")
     fileName = lst[0]
-    fileNames.append(fileName)
+    fileNamesInitial.append(fileName)
 
     fileArr = fileName.split('_')
 
@@ -76,6 +76,13 @@ for file in onlyfiles:
     scriptPath = (scriptsFolder + "\\" + str(fileName) + ".py")
     convertNotebook(noteBookPath, scriptPath)
 
+def getKey(file):
+    fileArr = file.split('_')
+    ques = fileArr[1]
+    ques_num = (int(ques[1:]))
+    return (fileArr[0], ques_num)
+
+fileNames = sorted(fileNamesInitial, key=getKey)
 
 def testProvidedCases(func, answer, testCases, params, studentName, q):
     allCorrect = True
