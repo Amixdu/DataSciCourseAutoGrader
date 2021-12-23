@@ -21,8 +21,10 @@ functionToQuestion = {
   "even_num":              "W1Q8",
   "string_manipulation":   "W1Q9",
   "strings":               "W1Q10",
-  "minimum":               "W2Q1"
+   "minimum":               "W2Q1"
+
 }
+
 gradeDictionary = {}
 questionDictionary = {}
 
@@ -62,20 +64,44 @@ current = os.getcwd()
 save_path = "/scripts"
 scriptsFolder = current + save_path
 
+def getKey(file):
+    MAX = 99999
 
+    fileName = file.split('.')[0]
+
+    fileArr = fileName.split('_')
+    ques = fileArr[1]
+
+    pos = fileName.find("_")
+    studentID = fileName[:pos]
+    functionName = fileName[pos+1:]
+
+    try:
+        week_question = functionToQuestion[functionName]
+        week_num = int(week_question[1:2])
+        ques_num = int(week_question[3:])
+    except:
+        week_num = MAX
+        ques_num = MAX
+
+    ## ERROR HANDLING : IF NAME DOESNT MATCH QUESTION NUMBER
+
+    # ques_num = (int(ques[1:]))
+    return (fileArr[0], week_num, ques_num)
 
 
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(noteBookFolder) if isfile(join(noteBookFolder, f))]
+onlyfiles_sorted = sorted(onlyfiles, key=getKey)
 
 
 
-fileNamesInitial = []
-for file in onlyfiles:
+fileNames = []
+for file in onlyfiles_sorted:
     lst = file.split(".")
     fileName = lst[0]
-    fileNamesInitial.append(fileName)
+    fileNames.append(fileName)
 
     fileArr = fileName.split('_')
 
@@ -95,24 +121,9 @@ for file in onlyfiles:
     except:
         pass
 
-def getKey(file):
-    fileArr = file.split('_')
-    ques = fileArr[1]
 
-    pos = file.find("_")
-    studentID = file[:pos]
-    functionName = file[pos+1:]
 
-    week_question = functionToQuestion[functionName]
-    week_num = int(week_question[1:2])
-    ques_num = int(week_question[3:])
-
-    ## ERROR HANDLING : IF NAME DOESNT MATCH QUESTION NUMBER
-
-    # ques_num = (int(ques[1:]))
-    return (fileArr[0], week_num, ques_num)
-
-fileNames = sorted(fileNamesInitial, key=getKey)
+# fileNames = sorted(fileNamesInitial, key=getKey)
 
 def testProvidedCases(func, answer, testCases, params, studentName, q, w, name):
     allCorrect = True
@@ -612,13 +623,17 @@ def generateCSV():
             studentID = key[:pos]
             functionName = key[pos+1:]
 
-            week_question = functionToQuestion[functionName]
-            quesNum = week_question[2:]
+            try:
+                week_question = functionToQuestion[functionName]
+                weekNum = week_question[0:2]
+                quesNum = week_question[2:]
+            except:
+                quesNum = "Question Name Not Recognized (Check File Name)"
 
             questionNum = key.split('_')[1]
             result = questionDictionary[key]
             if (question == quesNum.lower() or (question == "all")):
-                results_writer.writerow([studID, quesNum, result])
+                results_writer.writerow([studID, (weekNum + " "+ quesNum), result])
             
             
 
