@@ -11,18 +11,17 @@ gbl = globals()
 
 NUMBER_OF_QUESTIONS = 11
 functionToQuestion = {
-  "positive_integer":      "W1Q1",
-  "multiples":             "W1Q2",
-  "product":               "W1Q3",
-  "student_grade":         "W1Q4",
-  "squares":               "W1Q5",
-  "odd_numbers":           "W1Q6",
-  "loops":                 "W1Q7",
-  "even_num":              "W1Q8",
-  "string_manipulation":   "W1Q9",
-  "strings":               "W1Q10",
-   "minimum":               "W2Q1"
-
+    "positive_integer":      "W1Q1",
+    "multiples":             "W1Q2",
+    "product":               "W1Q3",
+    "student_grade":         "W1Q4",
+    "squares":               "W1Q5",
+    "odd_numbers":           "W1Q6",
+    "loops":                 "W1Q7",
+    "even_num":              "W1Q8",
+    "string_manipulation":   "W1Q9",
+    "strings":               "W1Q10",
+    "minimum":               "W2Q1"
 }
 
 gradeDictionary = {}
@@ -70,7 +69,7 @@ def getKey(file):
     fileName = file.split('.')[0]
 
     fileArr = fileName.split('_')
-    ques = fileArr[1]
+    # ques = fileArr[1]
 
     pos = fileName.find("_")
     studentID = fileName[:pos]
@@ -90,10 +89,24 @@ def getKey(file):
     return (fileArr[0], week_num, ques_num)
 
 
+def cleanFiles(files):
+    res = []
+    for file in files:
+        if len(file.split("_")) > 1:
+            res.append(file)
+    return res
+
+
+
+
+
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(noteBookFolder) if isfile(join(noteBookFolder, f))]
-onlyfiles_sorted = sorted(onlyfiles, key=getKey)
+cleaned_files = cleanFiles(onlyfiles)
+onlyfiles_sorted = sorted(cleaned_files, key=getKey)
+
+not_marked = len(onlyfiles) - len(cleaned_files)
 
 
 
@@ -584,12 +597,17 @@ def testAll(filesToTest):
         studentsUnique = list(dict.fromkeys(students))
 
         for student in studentsUnique:
-
-            res += (student + " : <strong>" + str("{:.2f}".format((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100)) + "%</strong>")
-            res += "<br>"
+            try:
+                res += (student + " : <strong>" + str("{:.2f}".format((gradeDictionary[student]/NUMBER_OF_QUESTIONS)*100)) + "%</strong>")
+                res += "<br><br>"
+            except:
+                res += (student + " : Error in file naming")
+                res += "<br><br>"
 
         generateScoreSheet()
 
+    if (not_marked > 0):
+        res += (str(not_marked) + " file not marked due to file naming issues")
 
     res += """     
                         </div>
@@ -602,7 +620,9 @@ def testAll(filesToTest):
           </body>
         </html>"""
 
-    generateCSV()
+    works = generateCSV()
+    if (not works):
+        res = "Please try closing the CSV files in the results folder and running again"
 
     return res
 
@@ -613,27 +633,34 @@ def generateCSV():
     save_path = "/results/"
     fn = "results_" + question + ".csv"
 
-    with open(current + save_path + fn, mode='w', newline='') as results_file:
-        results_writer = csv.writer(results_file)
-        results_writer.writerow(["Student", "QuestionNumber", "Result"])
-        for key in questionDictionary:
-            studID = key.split('_')[0]
+    res = True
 
-            pos = key.find("_")
-            studentID = key[:pos]
-            functionName = key[pos+1:]
+    try:
+        with open(current + save_path + fn, mode='w', newline='') as results_file:
+            results_writer = csv.writer(results_file)
+            results_writer.writerow(["Student", "QuestionNumber", "Result"])
+            for key in questionDictionary:
+                studID = key.split('_')[0]
 
-            try:
-                week_question = functionToQuestion[functionName]
-                weekNum = week_question[0:2]
-                quesNum = week_question[2:]
-            except:
-                quesNum = "Question Name Not Recognized (Check File Name)"
+                pos = key.find("_")
+                studentID = key[:pos]
+                functionName = key[pos+1:]
 
-            questionNum = key.split('_')[1]
-            result = questionDictionary[key]
-            if (question == quesNum.lower() or (question == "all")):
-                results_writer.writerow([studID, (weekNum + " "+ quesNum), result])
+                try:
+                    week_question = functionToQuestion[functionName]
+                    weekNum = week_question[0:2]
+                    quesNum = week_question[2:]
+                except:
+                    quesNum = "Question Name Not Recognized (Check File Name)"
+
+                questionNum = key.split('_')[1]
+                result = questionDictionary[key]
+                if (question == quesNum.lower() or (question == "all")):
+                    results_writer.writerow([studID, (weekNum + " "+ quesNum), result])
+    except:
+        res = False
+
+    return res
             
             
 
