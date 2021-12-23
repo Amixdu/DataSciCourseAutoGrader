@@ -9,8 +9,20 @@ from nbconvert import PythonExporter
 
 gbl = globals()
 
-NUMBER_OF_QUESTIONS = 10
-
+NUMBER_OF_QUESTIONS = 11
+functionToQuestion = {
+  "positive_integer":      "W1Q1",
+  "multiples":             "W1Q2",
+  "product":               "W1Q3",
+  "student_grade":         "W1Q4",
+  "squares":               "W1Q5",
+  "odd_numbers":           "W1Q6",
+  "loops":                 "W1Q7",
+  "even_num":              "W1Q8",
+  "string_manipulation":   "W1Q9",
+  "strings":               "W1Q10",
+  "minimum":               "W2Q1"
+}
 gradeDictionary = {}
 questionDictionary = {}
 
@@ -67,8 +79,12 @@ for file in onlyfiles:
 
     fileArr = fileName.split('_')
 
+    pos = fileName.find("_")
+    studentID = fileName[:pos]
+    functionName = fileName[pos+1:]
+
     # initialize points
-    gradeDictionary[fileArr[0]] = 0
+    gradeDictionary[studentID] = 0
 
     questionDictionary[fileName] = ""
 
@@ -82,12 +98,23 @@ for file in onlyfiles:
 def getKey(file):
     fileArr = file.split('_')
     ques = fileArr[1]
-    ques_num = (int(ques[1:]))
-    return (fileArr[0], ques_num)
+
+    pos = file.find("_")
+    studentID = file[:pos]
+    functionName = file[pos+1:]
+
+    week_question = functionToQuestion[functionName]
+    week_num = int(week_question[1:2])
+    ques_num = int(week_question[3:])
+
+    ## ERROR HANDLING : IF NAME DOESNT MATCH QUESTION NUMBER
+
+    # ques_num = (int(ques[1:]))
+    return (fileArr[0], week_num, ques_num)
 
 fileNames = sorted(fileNamesInitial, key=getKey)
 
-def testProvidedCases(func, answer, testCases, params, studentName, q):
+def testProvidedCases(func, answer, testCases, params, studentName, q, w, name):
     allCorrect = True
     res = ""
     try:
@@ -104,13 +131,16 @@ def testProvidedCases(func, answer, testCases, params, studentName, q):
     except:
         allCorrect = False
 
-    q_str = "Question " + q
+    q_str = " Question " + q
+    w_str = "Week " + w
+    q_name = " (" + name + ")"
+
     if (allCorrect):
-        res += tableFormRecords(q_str, "&#9989")
+        res += tableFormRecords((w_str + q_str + q_name), "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studentName] = gradeDictionary[studentName] + 1
     else:
-        res += tableFormRecords(q_str, "&#10060")
+        res += tableFormRecords((w_str + q_str + q_name), "&#10060")
         questionDictionary[fileName] = "Incorrect"
    
     return res
@@ -121,18 +151,18 @@ def testProvidedCases(func, answer, testCases, params, studentName, q):
 
 
 
-def testQ1(func, fileName):
+def testW1Q1(func, fileName):
     from solutions.solutions import positive_integer as answer
     testCases = [0, 1, 50, -1]
 
     fileArr = fileName.split('_')
     studentName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 1, studentName, "1")
+    return testProvidedCases(func, answer, testCases, 1, studentName, "1", "1", "positive_integer")
 
    
 
-def testQ2(func, fileName):
+def testW1Q2(func, fileName):
     from solutions.solutions import multiples as answer
 
     testCases = [2, 5, 10]
@@ -140,11 +170,11 @@ def testQ2(func, fileName):
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 1, studName, "2")
+    return testProvidedCases(func, answer, testCases, 1, studName, "2", "1", "multiples")
     
 
 
-def testQ3(func, fileName):
+def testW1Q3(func, fileName):
     from solutions.solutions import product as answer
 
     testCases = [(2,2), (3, 5), (0, 10), (2, 0)]
@@ -152,10 +182,10 @@ def testQ3(func, fileName):
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 2, studName, "3")
+    return testProvidedCases(func, answer, testCases, 2, studName, "3", "1", "product")
 
 
-def testQ4(func, fileName):
+def testW1Q4(func, fileName):
     from solutions.solutions import student_grade as answer
     import io
 
@@ -178,21 +208,22 @@ def testQ4(func, fileName):
     except:
         allCorrect = False
 
-    q_str = "Question 4"
+    q_str = " Question 4"
+    w_str = "Week 1"
     if (allCorrect):
-        res += tableFormRecords(q_str, "&#9989")
+        res += tableFormRecords((w_str + q_str + " (student_grade)"), "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords(q_str, "&#10060")
+        res += tableFormRecords((w_str + q_str + " (student_grade)"), "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
 
 
-def testQ5(fileName):
-    from solutions.Q5Sol import q5v1 as answer1
-    from solutions.Q5Sol import q5v2 as answer2
+def testW1Q5(func, fileName):
+    from solutions.solutions import q5v1 as answer1
+    from solutions.solutions import q5v2 as answer2
 
     import io
 
@@ -203,14 +234,16 @@ def testQ5(fileName):
     res = ""
 
     q_str = "Question 5"
+    w_str = "Week 1 "
     try:
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput      
-        current = os.getcwd() 
-        path = "/scripts/"
-        fn = fileName  + ".py"
-        full_path = current + path + fn
-        exec(open(full_path).read())
+        # current = os.getcwd() 
+        # path = "/scripts/"
+        # fn = fileName  + ".py"
+        # full_path = current + path + fn
+        # exec(open(full_path).read())
+        func()
         sys.stdout = sys.__stdout__  
         if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
             correct = True
@@ -220,17 +253,17 @@ def testQ5(fileName):
     
     
     if (correct):
-        res += tableFormRecords(q_str, "&#9989")
+        res += tableFormRecords((w_str + q_str + " (squares)"), "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords(q_str, "&#10060")
+        res += tableFormRecords((w_str + q_str + " (squares)"), "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
 
 
-def testQ6(func, fileName):
+def testW1Q6(func, fileName):
     from solutions.solutions import odd_numbers as answer
 
     testCases = []
@@ -238,10 +271,10 @@ def testQ6(func, fileName):
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 0, studName, "6")
+    return testProvidedCases(func, answer, testCases, 0, studName, "6", "1", "odd_numbers")
 
 
-def testQ7(func, fileName):
+def testW1Q7(func, fileName):
     from solutions.solutions import loops as answer1
     from solutions.solutions import loopsV2 as answer2
     import io
@@ -255,6 +288,7 @@ def testQ7(func, fileName):
     res = ""
 
     q_str = "Question 7"
+    w_str = "Week 1 "
     try:
         for case in testCases:
             capturedOutput = io.StringIO()
@@ -267,19 +301,19 @@ def testQ7(func, fileName):
         correct = False
     
     if (correct):
-        res += tableFormRecords(q_str, "&#9989")
+        res += tableFormRecords((w_str + q_str + " (loops)"), "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords(q_str, "&#10060")
+        res += tableFormRecords((w_str + q_str + " (loops)"), "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
 
 
-def testQ8(fileName):
-    from solutions.Q8Sol import q8v1 as answer1
-    from solutions.Q8Sol import q8v2 as answer2
+def testW1Q8(func, fileName):
+    from solutions.solutions import q8v1 as answer1
+    from solutions.solutions import q8v2 as answer2
 
     import io
 
@@ -290,14 +324,16 @@ def testQ8(fileName):
     res = ""
 
     q_str = "Question 8"
+    w_str = "Week 1 "
     try:
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput      
-        current = os.getcwd() 
-        path = "/scripts/"
-        fn = fileName  + ".py"
-        full_path = current + path + fn
-        exec(open(full_path).read())
+        # current = os.getcwd() 
+        # path = "/scripts/"
+        # fn = fileName  + ".py"
+        # full_path = current + path + fn
+        # exec(open(full_path).read())
+        func()
         sys.stdout = sys.__stdout__  
         if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
             correct = True
@@ -307,17 +343,17 @@ def testQ8(fileName):
     
     
     if (correct):
-        res += tableFormRecords(q_str, "&#9989")
+        res += tableFormRecords((w_str + q_str + " (even_num)"), "&#9989")
         questionDictionary[fileName] = "Correct"
         gradeDictionary[studName] = gradeDictionary[studName] + 1
     else:
-        res += tableFormRecords(q_str, "&#10060")
+        res += tableFormRecords((w_str + q_str + " (even_num)"), "&#10060")
         questionDictionary[fileName] = "Incorrect"
 
     return res
 
 
-def testQ9(func, fileName):
+def testW1Q9(func, fileName):
     from solutions.solutions import string_manipulation as answer
 
     testCases = ["abcdef", "hello world"]
@@ -325,11 +361,11 @@ def testQ9(func, fileName):
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 1, studName, "9")
+    return testProvidedCases(func, answer, testCases, 1, studName, "9", "1", "string_manipulation")
 
 
 
-def testQ10(func, fileName):
+def testW1Q10(func, fileName):
     from solutions.solutions import strings as answer
 
     testCases = [("a", "b"), ("hello ","world!" )]
@@ -337,7 +373,14 @@ def testQ10(func, fileName):
     fileArr = fileName.split('_')
     studName = fileArr[0]
 
-    return testProvidedCases(func, answer, testCases, 2, studName, "10")
+    return testProvidedCases(func, answer, testCases, 2, studName, "10", "1", "strings")
+
+def tesW2Q1(func, fileName):
+    from solutions.solutions import minimum as answer
+    testCases = [[2, 5, 10], [5, -4, 3], [10, 12, 13]]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+    return testProvidedCases(func, answer, testCases, 1, studName, "1", "2", "minimum")
 
 def testAll(filesToTest):
     createFolder("results")
@@ -384,6 +427,10 @@ def testAll(filesToTest):
         # func = getattr(testModule, functionName)
         fileArr = f.split('_')
 
+        pos = f.find("_")
+        studentID = f[:pos]
+        functionName = f[pos+1:]
+
         if (prev != fileArr[0]):
             newName = True
 
@@ -393,12 +440,12 @@ def testAll(filesToTest):
             res += tableFormHeading("")
             
             
-        if ((fileArr[1]).lower() == "q1"):
+        if (functionName.lower() == "positive_integer"):
             # if name of main function known:
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ1(testModule.positive_integer, f))
+                res += (testW1Q1(testModule.positive_integer, f))
             except:
                 res += tableFormRecords("Question 1", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
@@ -407,85 +454,98 @@ def testAll(filesToTest):
             # res += (testQ1(func, f))
             
 
-        if ((fileArr[1]).lower() == "q2"):
+        if (functionName.lower() == "multiples"):
             # if name of main function known:
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ2(testModule.multiples, f))
+                res += (testW1Q2(testModule.multiples, f))
             except:
                 res += tableFormRecords("Question 2", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
 
-        if ((fileArr[1]).lower() == "q3"):
+        if (functionName.lower() == "product"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ3(testModule.product, f))
+                res += (testW1Q3(testModule.product, f))
             except:
                 res += tableFormRecords("Question 3", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
 
-        if ((fileArr[1]).lower() == "q4"):
+        if (functionName.lower() == "student_grade"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ4(testModule.student_grade, f))
+                res += (testW1Q4(testModule.student_grade, f))
             except:
                 res += tableFormRecords("Question 4", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
-        if ((fileArr[1]).lower() == "q5"):
-            try:
-                res += (testQ5(f))
-            except:
-                res += tableFormRecords("Question 5", "&#10060")
-                questionDictionary[fileName] = "Incorrect"
-        
-        if ((fileArr[1]).lower() == "q6"):
+        if (functionName.lower() == "squares"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ6(testModule.odd_numbers, f))
+                res += (testW1Q5(testModule.squares, f))
+            except:
+                res += tableFormRecords("Error Question 5", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
+        
+        if (functionName.lower() == "odd_numbers"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW1Q6(testModule.odd_numbers, f))
             except:
                 res += tableFormRecords("Question 6", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
-        if ((fileArr[1]).lower() == "q7"):
+        if (functionName.lower() == "loops"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ7(testModule.loops, f))
+                res += (testW1Q7(testModule.loops, f))
             except:
                 res += tableFormRecords("Question 7", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
-        if ((fileArr[1]).lower() == "q8"):
+        if (functionName.lower() == "even_num"):
             try:
-                res += (testQ8(f))
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW1Q8(testModule.even_num, f))
             except:
                 res += tableFormRecords("Question 8", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
 
-        if ((fileArr[1]).lower() == "q9"):
+        if (functionName.lower() == "string_manipulation"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ9(testModule.string_manipulation, f))
+                res += (testW1Q9(testModule.string_manipulation, f))
             except:
                 res += tableFormRecords("Question 9", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
-        if ((fileArr[1]).lower() == "q10"):
+        if (functionName.lower() == "strings"):
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
-                res += (testQ10(testModule.strings, f))
+                res += (testW1Q10(testModule.strings, f))
             except:
                 res += tableFormRecords("Question 10", "&#10060")
+                questionDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "minimum"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (tesW2Q1(testModule.minimum, f))
+            except:
+                res += tableFormRecords("Question 1 Week 2", "&#10060")
                 questionDictionary[fileName] = "Incorrect"
 
 
@@ -547,10 +607,18 @@ def generateCSV():
         results_writer.writerow(["Student", "QuestionNumber", "Result"])
         for key in questionDictionary:
             studID = key.split('_')[0]
+
+            pos = key.find("_")
+            studentID = key[:pos]
+            functionName = key[pos+1:]
+
+            week_question = functionToQuestion[functionName]
+            quesNum = week_question[2:]
+
             questionNum = key.split('_')[1]
             result = questionDictionary[key]
-            if (question == questionNum.lower() or (question == "all")):
-                results_writer.writerow([studID, questionNum, result])
+            if (question == quesNum.lower() or (question == "all")):
+                results_writer.writerow([studID, quesNum, result])
             
             
 
@@ -581,7 +649,14 @@ def generateScoreSheet():
 def filterFun(q):
     filtered = []
     for file in fileNames:
-        if str(file.split('_')[1]).lower() == q:
+        pos = file.find("_")
+        studentID = file[:pos]
+        functionName = file[pos+1:]
+
+        week_question = functionToQuestion[functionName]
+        quesNum = week_question[2:]
+
+        if str(quesNum).lower() == q:
             filtered.append(file)
     return filtered
 

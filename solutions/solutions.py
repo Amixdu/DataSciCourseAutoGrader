@@ -1,3 +1,5 @@
+### WEEK 1 ###
+
 # Q1
 def positive_integer(x):
     if x > 0: 
@@ -35,8 +37,17 @@ def student_grade(x):
 
 
 # # Q5
-# for i in range (6):
-#     print(i ** 2)
+def q5v1():
+    stri = ""
+    for i in range (6):
+        stri += (str(i ** 2) + "\n")
+    return stri
+
+def q5v2():
+    stri = ""
+    for i in range (6):
+        stri += (str(i ** 2))
+    return stri
 
 # Q6
 def odd_numbers():
@@ -67,12 +78,26 @@ def loopsV2(x):
 
 
 # # Q8
-# x = 0
-# while x < 30:
-#     if x % 3 == 0:
-#         print(x)
-#         x += 2
-#     x += 2
+def q8v1():
+    x = 0
+    res = ""
+    while x < 30:
+        if x % 3 == 0:
+            res += (str(x) + "\n")
+            x += 2
+        x += 2
+    return res
+
+
+def q8v2():
+    x = 0
+    res = ""
+    while x < 30:
+        if x % 3 == 0:
+            res += str(x)
+            x += 2
+        x += 2
+    return res
 
 
 # Q9
@@ -87,3 +112,14 @@ def strings(a,b):
     c = a[-1] + b[-1]
     c = c.lower()
     return c
+
+
+### WEEK 2 ###
+
+# Q1
+def minimum(lists): 
+    minimum = lists[0] 
+    for i in range(1, len(lists)): 
+        if lists[i] < minimum: 
+            minimum = lists[i] 
+    return minimum 

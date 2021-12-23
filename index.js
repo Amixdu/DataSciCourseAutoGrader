@@ -1,7 +1,7 @@
 const express = require('express')
 const {spawn} = require('child_process');
 const app = express()
-const port = 3000
+const port = 8000
 
 
 app.use(express.static("public"))
@@ -46,7 +46,7 @@ app.post("/", (req, res) => {
     })
 })
 
-app.listen(port, () => console.log(`Example app listening on port http://localhost:3000/`))
+app.listen(port, () => console.log(`Example app listening on port http://localhost:8000/`))
 
 
 function run(fp, ques, callback){
