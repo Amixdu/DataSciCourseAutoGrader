@@ -163,9 +163,18 @@ def elementsV2(tuples):
 
 # Q6
 def letter_a(tuples): 
+    stri = ""
     for i in range(len(tuples)): 
         if 'a' in tuples[i]: 
-            print(tuples[i]) 
+            stri += (tuples[i] + "\n")
+    return stri
+
+def letter_aV2(tuples): 
+    stri = ""
+    for i in range(len(tuples)): 
+        if 'a' in tuples[i]: 
+            stri += tuples[i]
+    return stri
 
 # Q7
 def even_numbers(tuples):  

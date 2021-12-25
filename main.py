@@ -476,6 +476,56 @@ def testW2Q5(func, fileName):
 
     return res
 
+def testW2Q6(func, fileName):
+    from solutions.solutions import letter_a as answer1
+    from solutions.solutions import letter_aV2 as answer2
+
+    import io
+
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+
+    correct = False
+    res = ""
+
+    q_str = "Question 6"
+    w_str = "Week 2 "
+    try:
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput      
+        func(("data", "hello", "world", ""))
+        sys.stdout = sys.__stdout__  
+        if ((capturedOutput.getvalue() == answer1(("data", "hello", "world", ""))) or (capturedOutput.getvalue() == answer2(("data", "hello", "world", "")))):
+            correct = True
+    except:
+        correct = False
+
+    
+    
+    if (correct):
+        res += tableFormRecords((w_str + q_str + " (letter_a)"), "&#9989")
+        questionResultsDictionary[fileName] = "Correct"
+        gradeDictionary[studName] = gradeDictionary[studName] + 1
+    else:
+        res += tableFormRecords((w_str + q_str + " (letter_a)"), "&#10060")
+        questionResultsDictionary[fileName] = "Incorrect"
+
+    return res
+
+def testW2Q7(func, fileName):
+    from solutions.solutions import even_numbers as answer
+    testCases = [(1,2,3,4), (0,2,3,4,5,7)]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+    return testProvidedCases(func, answer, testCases, 1, studName, "7", "2", "even_numbers", fileName)
+
+def testW2Q8(func, fileName):
+    from solutions.solutions import square_root as answer
+    testCases = [[1,2,3,4,5]]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+    return testProvidedCases(func, answer, testCases, 1, studName, "8", "2", "square_root", fileName)
+
 def runTest(functionName, name_str, f, func, q):
     res = ""
     if (functionName.lower() == name_str):
@@ -690,6 +740,33 @@ def testAll(filesToTest):
                 res += (testW2Q5(testModule.elements, f))
             except:
                 res += tableFormRecords(("Week 2 Question 5 (elements)"), "&#10060")
+                questionResultsDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "letter_a"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW2Q6(testModule.letter_a, f))
+            except:
+                res += tableFormRecords(("Week 2 Question 6 (letter_a)"), "&#10060")
+                questionResultsDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "even_numbers"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW2Q7(testModule.even_numbers, f))
+            except:
+                res += tableFormRecords(("Week 2 Question 7 (even_numbers)"), "&#10060")
+                questionResultsDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "square_root"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW2Q8(testModule.square_root, f))
+            except:
+                res += tableFormRecords(("Week 2 Question 8 (square_root)"), "&#10060")
                 questionResultsDictionary[fileName] = "Incorrect"
         
        
