@@ -30,7 +30,7 @@ functionToQuestion = {
     "even_numbers":          "W2Q7",
     "square_root":           "W2Q8",
     "sets":                  "W2Q9",
-    "remove_elemnts":        "W2Q10"
+    "remove_elements":        "W2Q10"
 }
 
 
@@ -886,7 +886,7 @@ def generateCSV():
 
                 questionName = key.split('_')[1]
                 result = questionResultsDictionary[key]
-                if (question == quesNum.lower() or (question == "all")):
+                if (question == week_question.lower() or (question == "all")):
                     results_writer.writerow([studID, (weekNum + " "+ quesNum + " (" + functionName + ")"), result])
     except:
         res = False
@@ -927,9 +927,9 @@ def filterFun(q):
         functionName = file[pos+1:]
 
         week_question = functionToQuestion[functionName]
-        quesNum = week_question[2:]
+        
 
-        if str(quesNum).lower() == q:
+        if str(week_question).lower() == q:
             filtered.append(file)
     return filtered
 
@@ -957,32 +957,51 @@ def testQues(q):
     filtered = filterFun(q)
     return testAll(filtered)
 
-def testQues2():
-    filtered = filterFun("q2")
-    return testAll(filtered)
-
 if question == "all":
     print(testAll(fileNames))
-elif question == "q1":
-    print(testQues("q1"))
-elif question == "q2":
-    print(testQues("q2"))
-elif question == "q3":
-    print(testQues("q3"))
-elif question == "q4":
-    print(testQues("q4"))
-elif question == "q5":
-    print(testQues("q5"))
-elif question == "q6":
-    print(testQues("q6"))
-elif question == "q7":
-    print(testQues("q7"))
-elif question == "q8":
-    print(testQues("q8"))
-elif question == "q9":
-    print(testQues("q9"))
-elif question == "q10":
-    print(testQues("q10"))
+elif question == "w1q1":
+    print(testQues("w1q1"))
+elif question == "w1q2":
+    print(testQues("w1q2"))
+elif question == "w1q3":
+    print(testQues("w1q3"))
+elif question == "w1q4":
+    print(testQues("w1q4"))
+elif question == "w1q5":
+    print(testQues("w1q5"))
+elif question == "w1q6":
+    print(testQues("w1q6"))
+elif question == "w1q7":
+    print(testQues("w1q7"))
+elif question == "w1q8":
+    print(testQues("w1q8"))
+elif question == "w1q9":
+    print(testQues("w1q9"))
+elif question == "w1q10":
+    print(testQues("w1q10"))
+
+elif question == "w2q1":
+    print(testQues("w2q1"))
+elif question == "w2q2":
+    print(testQues("w2q2"))
+elif question == "w2q3":
+    print(testQues("w2q3"))
+elif question == "w2q4":
+    print(testQues("w2q4"))
+elif question == "w2q5":
+    print(testQues("w2q5"))
+elif question == "w2q6":
+    print(testQues("w2q6"))
+elif question == "w2q7":
+    print(testQues("w2q7"))
+elif question == "w2q8":
+    print(testQues("w2q8"))
+elif question == "w2q9":
+    print(testQues("w2q9"))
+elif question == "w2q10":
+    print(testQues("w2q10"))
+
+
 
 
 
