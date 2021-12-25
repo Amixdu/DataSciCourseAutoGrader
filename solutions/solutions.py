@@ -36,7 +36,7 @@ def student_grade(x):
         return("N")
 
 
-# # Q5
+# Q5
 def q5v1():
     stri = ""
     for i in range (6):
@@ -123,3 +123,70 @@ def minimum(lists):
         if lists[i] < minimum: 
             minimum = lists[i] 
     return minimum 
+
+
+# Q2
+def sums(lists): 
+    count = 0 
+    for i in range(len(lists)): 
+        count += lists[i] 
+    return count 
+
+# Q3
+def unique(lists): 
+    new_list = [] 
+    for i in range(len(lists)): 
+        if lists[i] not in new_list: 
+            new_list.append(lists[i]) 
+    return new_list
+
+# Q4
+def string_index(lists, string): 
+    for i in range(len(lists)): 
+        if lists[i] == string: 
+            return i
+
+# Q5
+def elements(tuples): 
+    stri = ""
+    for i in range(len(tuples)): 
+        if len(tuples[i]) > 3: 
+            stri += (tuples[i] + "\n")
+    return stri 
+
+def elementsV2(tuples): 
+    stri = ""
+    for i in range(len(tuples)): 
+        if len(tuples[i]) > 3: 
+            stri += tuples[i]
+    return stri 
+
+# Q6
+def letter_a(tuples): 
+    for i in range(len(tuples)): 
+        if 'a' in tuples[i]: 
+            print(tuples[i]) 
+
+# Q7
+def even_numbers(tuples):  
+    new_list = [] 
+    for i in range(len(tuples)): 
+        if tuples[i] % 2 == 0: 
+            new_list.append(tuples[i]) 
+    return new_list 
+
+# Q8
+import math  
+def square_root(lists): 
+    new_list = [] 
+    for i in range(len(lists)): 
+        new_list.append(math.sqrt(lists[i])) 
+    return new_list 
+
+# Q9
+def sets(set1, set2): 
+    return set1.union(set2) 
+
+# Q10
+def remove_elements(set1, set2): 
+    return set1.difference(set2) 
