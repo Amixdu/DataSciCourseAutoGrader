@@ -526,6 +526,20 @@ def testW2Q8(func, fileName):
     studName = fileArr[0]
     return testProvidedCases(func, answer, testCases, 1, studName, "8", "2", "square_root", fileName)
 
+def testW2Q9(func, fileName):
+    from solutions.solutions import sets as answer
+    testCases = [[{1,2,3}, {1,2}]]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+    return testProvidedCases(func, answer, testCases, 2, studName, "9", "2", "sets", fileName)
+
+def testW2Q10(func, fileName):
+    from solutions.solutions import remove_elements as answer
+    testCases = [[{1,2,3}, {1,2}]]
+    fileArr = fileName.split('_')
+    studName = fileArr[0]
+    return testProvidedCases(func, answer, testCases, 2, studName, "10", "2", "remove_elements", fileName)
+
 def runTest(functionName, name_str, f, func, q):
     res = ""
     if (functionName.lower() == name_str):
@@ -767,6 +781,24 @@ def testAll(filesToTest):
                 res += (testW2Q8(testModule.square_root, f))
             except:
                 res += tableFormRecords(("Week 2 Question 8 (square_root)"), "&#10060")
+                questionResultsDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "sets"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW2Q9(testModule.sets, f))
+            except:
+                res += tableFormRecords(("Week 2 Question 9 (sets)"), "&#10060")
+                questionResultsDictionary[fileName] = "Incorrect"
+
+        if (functionName.lower() == "remove_elements"):
+            try:
+                fileToImport = 'scripts.' + f
+                testModule = importlib.import_module(fileToImport)
+                res += (testW2Q10(testModule.remove_elements, f))
+            except:
+                res += tableFormRecords(("Week 2 Question 10 (remove_elements)"), "&#10060")
                 questionResultsDictionary[fileName] = "Incorrect"
         
        
