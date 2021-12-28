@@ -1001,10 +1001,3 @@ elif question == "w2q9":
 elif question == "w2q10":
     print(testQues("w2q10"))
 
-
-
-
-
-
-
-
