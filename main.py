@@ -67,8 +67,6 @@ def convertNotebook(notebookPath, modulePath):
   with open(modulePath, 'w+') as fh:
     fh.writelines(source)
 
-
-# scriptsFolder = "D:\\Projects\\PythonAutoGrading\\Test1\\scripts"
 current = os.getcwd() 
 save_path = "/scripts"
 scriptsFolder = current + save_path
@@ -77,10 +75,7 @@ def getKey(file):
     MAX = 99999
 
     fileName = file.split('.')[0]
-
     fileArr = fileName.split('_')
-    # ques = fileArr[1]
-
     pos = fileName.find("_")
     studentID = fileName[:pos]
     functionName = fileName[pos+1:]
@@ -93,9 +88,6 @@ def getKey(file):
         week_num = MAX
         ques_num = MAX
 
-    ## ERROR HANDLING : IF NAME DOESNT MATCH QUESTION NUMBER
-
-    # ques_num = (int(ques[1:]))
     return (fileArr[0], week_num, ques_num)
 
 
@@ -105,10 +97,6 @@ def cleanFiles(files):
         if len(file.split("_")) > 1:
             res.append(file)
     return res
-
-
-
-
 
 from os import listdir
 from os.path import isfile, join
@@ -145,9 +133,6 @@ for file in onlyfiles_sorted:
         pass
 
 
-
-# fileNames = sorted(fileNamesInitial, key=getKey)
-
 def testProvidedCases(func, answer, testCases, params, studentName, q, w, name, fileName):
     allCorrect = True
     res = ""
@@ -178,12 +163,6 @@ def testProvidedCases(func, answer, testCases, params, studentName, q, w, name, 
         questionResultsDictionary[fileName] = "Incorrect"
    
     return res
-
-    
-    
-    # return allCorrect
-
-
 
 
 def testW1Q1(func, fileName):
@@ -225,7 +204,6 @@ def testW1Q4(func, fileName):
     import io
 
     testCases = [0, 10, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, -1]
-    # testCases = [60]
 
     fileArr = fileName.split('_')
     studName = fileArr[0]
@@ -273,11 +251,6 @@ def testW1Q5(func, fileName):
     try:
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput      
-        # current = os.getcwd() 
-        # path = "/scripts/"
-        # fn = fileName  + ".py"
-        # full_path = current + path + fn
-        # exec(open(full_path).read())
         func()
         sys.stdout = sys.__stdout__  
         if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
@@ -285,8 +258,6 @@ def testW1Q5(func, fileName):
     except:
         correct = False
 
-    
-    
     if (correct):
         res += tableFormRecords((w_str + q_str + " (squares)"), "&#9989")
         questionResultsDictionary[fileName] = "Correct"
@@ -363,11 +334,6 @@ def testW1Q8(func, fileName):
     try:
         capturedOutput = io.StringIO()
         sys.stdout = capturedOutput      
-        # current = os.getcwd() 
-        # path = "/scripts/"
-        # fn = fileName  + ".py"
-        # full_path = current + path + fn
-        # exec(open(full_path).read())
         func()
         sys.stdout = sys.__stdout__  
         if ((capturedOutput.getvalue() == answer1()) or (capturedOutput.getvalue() == answer2())):
@@ -375,7 +341,6 @@ def testW1Q8(func, fileName):
     except:
         correct = False
 
-    
     
     if (correct):
         res += tableFormRecords((w_str + q_str + " (even_num)"), "&#9989")
@@ -397,7 +362,6 @@ def testW1Q9(func, fileName):
     studName = fileArr[0]
 
     return testProvidedCases(func, answer, testCases, 1, studName, "9", "1", "string_manipulation", fileName)
-
 
 
 def testW1Q10(func, fileName):
@@ -464,8 +428,6 @@ def testW2Q5(func, fileName):
     except:
         correct = False
 
-    
-    
     if (correct):
         res += tableFormRecords((w_str + q_str + " (elements)"), "&#9989")
         questionResultsDictionary[fileName] = "Correct"
@@ -500,8 +462,6 @@ def testW2Q6(func, fileName):
     except:
         correct = False
 
-    
-    
     if (correct):
         res += tableFormRecords((w_str + q_str + " (letter_a)"), "&#9989")
         questionResultsDictionary[fileName] = "Correct"
@@ -551,7 +511,6 @@ def runTest(functionName, name_str, f, func, q):
             res += tableFormRecords(q, "&#10060")
     return res
 
-    
 def testAll(filesToTest):
     createFolder("results")
     newName = True
@@ -589,14 +548,7 @@ def testAll(filesToTest):
                         <tbody>
     """
     for f in filesToTest:
-        # fileToImport = 'scripts.' + f
-        # testModule = importlib.import_module(fileToImport)
-
-        # below line gets funtion name from script
-        # functionName = (getmembers(testModule, isfunction)[0][0])
-        # func = getattr(testModule, functionName)
         fileArr = f.split('_')
-
         pos = f.find("_")
         studentID = f[:pos]
         functionName = f[pos+1:]
@@ -611,7 +563,6 @@ def testAll(filesToTest):
             
             
         if (functionName.lower() == "positive_integer"):
-            # if name of main function known:
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
@@ -619,15 +570,9 @@ def testAll(filesToTest):
             except:
                 res += tableFormRecords(("Week 1 Question 1 (positive_integer)"), "&#10060")
                 questionResultsDictionary[fileName] = "Incorrect"
-
-        # res += runTest(functionName, "positive_integer", f, testW1Q1, "Question 1")
-
-            # if only one function
-            # res += (testQ1(func, f))
             
 
         if (functionName.lower() == "multiples"):
-            # if name of main function known:
             try:
                 fileToImport = 'scripts.' + f
                 testModule = importlib.import_module(fileToImport)
@@ -800,9 +745,6 @@ def testAll(filesToTest):
             except:
                 res += tableFormRecords(("Week 2 Question 10 (remove_elements)"), "&#10060")
                 questionResultsDictionary[fileName] = "Incorrect"
-        
-       
-
 
         prev = fileArr[0]
         newName = False
@@ -894,16 +836,11 @@ def generateCSV():
     return res
             
             
-
-
-
 def generateScoreSheet():
     current = os.getcwd() 
     save_path = "/results/"
     fn = "grades.csv"
-    
 
-    # with fpath.open(mode='w+', newline='') as grades_file:
     with open(current + save_path + fn, mode='w', newline='') as grades_file:
         grades_writer = csv.writer(grades_file)
         grades_writer.writerow(["Student", "TotalGrade", "FinalResult"])
@@ -916,8 +853,6 @@ def generateScoreSheet():
                 result = "Fail"
 
             grades_writer.writerow([key, (str(score) + "%"), result])
-
-
 
 def filterFun(q):
     filtered = []
